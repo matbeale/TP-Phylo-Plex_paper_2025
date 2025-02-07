@@ -1,2 +1,3 @@
 *.html
-*DStore
+*.knit.md
+.DS_Store

@@ -128,6 +128,8 @@ COBS661K.metadata.file <- paste0(Data_input_directory,"Blackwell2018__File2_taxi
 # Primalscheme 23S design
 primalscheme.design.23S.file <- paste0(Data_input_directory,"23S_scheme_primalscheme.primer.tsv")
 
+primer.blast.23s.output.all.file <- paste0(Data_input_directory,"23S_o1_Nich_variable-site-masking.20220624.primerblast.searches.tsv")
+
 
 #############################################
 # South Africa Validation - MinION QC data 
