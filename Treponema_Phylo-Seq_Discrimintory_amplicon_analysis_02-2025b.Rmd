@@ -4199,7 +4199,7 @@ p.genomic_positional_distance_clustering__combi
 \
 ## Supplementary Data table prep
 Make a nice prettier summary table of the amplicons and primers for a supplementary data table
-```{r, eval=F}
+```{r, eval=T}
 primalscheme.design.summary <- primalscheme.design %>%
   select(region, primer_side, X.gc, tm..use.65., size, seq) %>%
   mutate(primer_dir=ifelse(primer_side=="LEFT","FWD","REV")) %>% select(-primer_side) %>%
