@@ -7,6 +7,12 @@ To use this code, first clone the repo
 ```
 git clone https://github.com/matbeale/TP-Phylo-Plex_paper_2025
 ```
+
+Navigate to the repository directory and unzip the largest sim files:
+``` 
+gunzip data/simulated_mutations_250-sims/*
+```
+
 Then open the RNotebook (`Treponema_Phylo-Seq_Discrimintory_amplicon_analysis_02-2025b.Rmd`) using Rstudio.
 \
 <br />
