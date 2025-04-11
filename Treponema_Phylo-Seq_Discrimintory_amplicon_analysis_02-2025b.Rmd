@@ -2978,7 +2978,7 @@ p.treeConcordance_collapsedTree_combi <- plot_grid(p.collapsed_WGS.sublineages.t
 
 p.treeConcordance_collapsedTree_combi
 
-#ggsave(plot=p.treeConcordance_collapsedTree_combi, paste0(Figures_directory,"SuppFig11__TreeConcordance.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=140, device='pdf', dpi=400)
+#ggsave(plot=p.treeConcordance_collapsedTree_combi, paste0(Figures_directory,"SuppFig10__TreeConcordance.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=140, device='pdf', dpi=400)
 ```
 
 \
@@ -3197,7 +3197,7 @@ Plot tree with breakdown
 p.collapsed_WGS.sublineages.tree_with_identical.clusters_w.bar_combi <- plot_grid(p.collapsed_WGS.sublineages.tree_with_identical.clusters + theme(legend.position='none'), p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.bar + guides(fill = guide_legend(ncol=2)), ncol=1, rel_heights = c(3,2), label_size = 11, labels=c("A - Whole genome phylogeny v.s. Identical amplicon profiles", "B - Sublineage identity within identical amplicon profiles"), vjust=1.1, scale=0.95)
 p.collapsed_WGS.sublineages.tree_with_identical.clusters_w.bar_combi
 
-#ggsave(plot=p.collapsed_WGS.sublineages.tree_with_identical.clusters_w.bar_combi, paste0(Figures_directory,"SuppFig10__Amplicon_Sublin-discrimination_tree.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=240, height=200, device='pdf', dpi=400) 
+#ggsave(plot=p.collapsed_WGS.sublineages.tree_with_identical.clusters_w.bar_combi, paste0(Figures_directory,"SuppFig11__Amplicon_Sublin-discrimination_tree.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=240, height=200, device='pdf', dpi=400) 
 
 ```
 \
