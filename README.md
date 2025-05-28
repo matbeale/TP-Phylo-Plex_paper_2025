@@ -60,6 +60,7 @@ Ensure all R package dependencies are installed and available:
 | reshape2   | 1.4.4   | CRAN                                   |
 | doMC       | 1.3.8   | CRAN                                   |
 | pairsnp    | 0.1.0   | https://github.com/gtonkinhill/pairsnp |
+| rpinecone  | 0.1.0   | https://github.com/alexwailan/rpinecone|
 
 
 <br />
