@@ -4480,8 +4480,11 @@ p.Ampliseq_WGS_tree_subset.withMLST.gg
 ### Can those clusters been discriminated using the Phylo-Plex framework, and what would the optimal number of amplicons be? 
 
 Sequencing reads downloaded from ENA and mapped to a common reference genome (FA_1090) using snippy. 
+Multiple sequence alignment built using snippy-core, then fix sites using inbuilt snippy tools.
+Create VCF using snp-sites `snp-sites -v -o clean.SNPs.vcf clean.SNPs.aln`
+\
 ```{r}
-Taouk_gono_vcf.file <- "/Users/mb29/Papers/AmpliSeq_Treponema_paper_2024/Revision_04-2025/Gono_work/clean.SNPs.vcf"
+Taouk_gono_vcf.file <- "Gono_data/clean.SNPs.vcf.gz"
 ```
 \
 \
@@ -4496,7 +4499,46 @@ Alternatively, script rewritten and optimised for command line.
 Don't run on local laptop - 5500 genomes takes a lot of memory to process. 
 - Separate scripts available in repo "Process_multi-VCF_to_CSV.R"
 
-`Rscript Process_multi-VCF_to_CSV.R clean.SNPs.vcf`
+`Rscript Process_multi-VCF_to_CSV.R clean.SNPs.vcf.gz`
+
+\
+\
+Read in metadata and process
+```{r}
+Taouk_gono.metadata.file <- "Gono_data/Taouk_supdata_41467_2024_52343_MOESM4_ESM.xlsx"
+Taouk_gono.metadata <- read_excel(Taouk_gono.metadata.file, sheet='cleaned_up')
+
+
+Taouk_gono.metadata %>%
+  group_by(`Cluster ID`) %>%
+  summarise(count=n()) %>%
+  arrange(desc(count)) %>%
+  ggplot((aes(count))) + 
+  geom_histogram(binwidth = 5) + 
+  theme_bw() + theme.text.size +
+  scale_y_log10() + scale_x_continuous(breaks=seq(0,800,50))
+
+# Let's pull out the most common clusters
+Taouk_gono.metadata_min10 <- Taouk_gono.metadata %>%
+  group_by(`Cluster ID`) %>%
+  summarise(count=n()) %>%
+  filter(count>=10)
+Taouk_gono.metadata_min10
+
+Taouk_gono.metadata_min10.list <- Taouk_gono.metadata_min10 %>%
+  pull(`Cluster ID`)
+Taouk_gono.metadata_min10.list
+
+Taouk_gono.metadata <- Taouk_gono.metadata %>%
+  mutate(cluster_limited = ifelse(`Cluster ID` %in% Taouk_gono.metadata_min10.list, `Cluster ID`, "Other"))
+Taouk_gono.metadata
+
+#write.csv(select(Taouk_gono.metadata, Accession, cluster_limited), file="Gono_data/Taouk_clusters_min10.csv", row.names = F)
+```
+
+
+
+\
 \
 Read in separately generated run data:
 ```{r}
@@ -4509,7 +4551,7 @@ Taouk_gono.processed.vcf
 Also need to run FST classification. This has also been rewritten as a command line script
  - "Calculate_FST_from_populations.R"
  
- `Rscript scripts/Calculate_FST_from_populations.R clean.SNPs.vcf_processed_spread.tsv population_hier1.test.csv 0.99`
+ `Rscript scripts/Calculate_FST_from_populations.R clean.SNPs.vcf_processed_spread.tsv Gono_data/Taouk_clusters_min10.csv 0.99`
  
  Read in separately generated run data:
 ```{r}

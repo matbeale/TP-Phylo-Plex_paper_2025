@@ -79,7 +79,7 @@ calculate_fst_for_pop <- function(poplabel, my.locus.df, mypop.data, FST.cuttoff
 ## function to loop through all populations and assess variants
 assess_variants_loop <- function(variants.df, pop.matrix, fst.threshold){
   FST.combined.output <- NULL
-  for (current in unique(pop.matrix$population)){
+  for (current in sort(unique(pop.matrix$population))){
     print(paste0("Testing variants against population:",current))
     FST.sublin.current <- calculate_fst_for_pop(current,variants.df, pop.matrix[,c("sampleid",current)],fst.threshold)
     FST.combined.output <- rbind(FST.combined.output, FST.sublin.current)
