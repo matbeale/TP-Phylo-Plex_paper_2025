@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-packages.list <- c("tidyverse","hierfstat")
+packages.list <- c("tidyverse","hierfstat", "foreach", "doParallel")
 for(pkg in packages.list){ eval(bquote(library(.(pkg)))) }
 
 # Parse command line arguments
@@ -93,6 +93,55 @@ assess_variants_loop <- function(variants.df, pop.matrix, fst.threshold){
 ################################################################################################
 
 
+
+#
+#
+## function to loop through all populations and assess variants
+
+# Parallel version of assess_variants_loop
+assess_variants_parallel <- function(variants.df, pop.matrix, fst.threshold, n.cores = 4){
+  # Setup parallel backend
+  cl <- makeCluster(n.cores)
+  registerDoParallel(cl)
+  clusterExport(cl, varlist = c("calculate_fst_for_pop"))
+  
+  populations <- sort(unique(pop.matrix$population))
+  
+  # Run in parallel
+  FST.list <- foreach(current = populations, .combine = rbind, .packages = c("tidyverse","hierfstat")) %dopar% {
+    print(paste0("Testing variants against population: ", current))
+    FST.sublin.current <- calculate_fst_for_pop(
+      current,
+      variants.df,
+      pop.matrix[, c("sampleid", current)],
+      fst.threshold
+    )
+    FST.sublin.current
+  }
+  
+  # Stop the cluster
+  stopCluster(cl)
+  
+  # Filter NAs
+  FST.list <- FST.list[!is.na(FST.list$sig), ]
+  return(FST.list)
+}
+
+
+###
+# Usage Example: 
+# assess_variants_loop(variants.df, pop.matrix, 0.99)
+################################################################################################
+
+
+
+
+
+###################
+
+
+
+
 # Main:
 print("Reading in populations file")
 populations.input <- read.csv(populations.file)
@@ -108,7 +157,9 @@ print("Assessing variant sites for FST against each population")
 # Example:
 # FST.sites.by.population.test <- calculate_fst_for_pop("TPA-1", processed.vcf, populations.matrix[,c("sampleid","TPA-1")], 0.99)
 
-FST.sites.by.population <- assess_variants_loop(processed.vcf, populations.matrix, fst.threshold)
+#FST.sites.by.population <- assess_variants_loop(processed.vcf, populations.matrix, fst.threshold)
+FST.sites.by.population <- assess_variants_parallel(processed.vcf, populations.matrix, fst.threshold, n.cores = 12)
+
 
 output.filename <- paste0(processed.vcf.file,".FST.scoring.csv")
 

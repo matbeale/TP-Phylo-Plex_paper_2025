@@ -10,7 +10,7 @@ Make a clean environment
 
 Load dependencies
 ```{r}
-packages.list <- c("ggplot2","dplyr","tidyverse","treeio","ggtree","phytools","readxl","ggnewscale","ape","adegenet","pegas","mmod","vcfR","hierfstat","network","ggnetwork","intergraph","igraph", "seqinr","IRanges","ggbeeswarm","primerTree","taxize","cowplot","ggstance","ggforce","vegan","Polychrome","ggrastr","treemapify","treespace","reshape2","doMC", "pairsnp")
+packages.list <- c("ggplot2","dplyr","tidyverse","treeio","ggtree","phytools","readxl","ggnewscale","ape","adegenet","pegas","mmod","vcfR","hierfstat","network","ggnetwork","intergraph","igraph","magick", "seqinr","IRanges","ggbeeswarm","primerTree","taxize","cowplot","ggstance","ggforce","vegan","Polychrome","ggrastr","treemapify","treespace","reshape2","doMC", "pairsnp")
 
 for(pkg in packages.list){ eval(bquote(library(.(pkg)))) }
 ```
@@ -57,9 +57,11 @@ print(paste("Working directory:", getwd() ))
 Data_input_directory <- paste0(getwd(), "/data/")
 
 #Figures_directory <- paste0(getwd(), "/figures/")
-Figures_directory <- paste0(getwd(), "/figures_revision_05-2025/")
+Figures_directory <- paste0(getwd(), "/figures_revision_12-2025/")
 
 Ancillary_Figures_directory <- paste0(getwd(), "/ancillary_figures/")
+
+Gono_data <- paste0(getwd(), "/Gono_data/")
 ```
 
 \
@@ -94,24 +96,24 @@ TPA.meta1 <- readxl::read_excel(TPA.meta1.file)
 #
 #############################################
 # New Phylogenetic cluster assignments precalculated using rPinecone
-TPAE.pinecone.10.file <- paste0(Data_input_directory,"TPAE.all.gubbins-filtered.SNPs.aln.pyjar.joint.tre.rPinecone.10.3__20220225.csv")
+TPAE.pinecone.10.file <- paste0(Data_input_directory,"TPAE.all.gubbins-filtered.SNPs.aln.pyjar.joint.tre.rPinecone.10.3__20220225.csv.gz")
 
 
 #############################################
 # Precalculated FST scores for all newly redefined sublineages
-FST.sublin.combined.TPAE.file <- paste0(Data_input_directory,"FST.sublin.combined.TPAE_20220606.csv")
+FST.sublin.combined.TPAE.file <- paste0(Data_input_directory,"FST.sublin.combined.TPAE_20220606.csv.gz")
 
 #############################################
 # PrimalScheme design files (outputs of primalscheme)
-primalscheme.design.file <- paste0(Data_input_directory,"TPAE_discriminatory_PrimalScheme.primer.tsv")
+primalscheme.design.file <- paste0(Data_input_directory,"TPAE_discriminatory_PrimalScheme.primer.tsv.gz")
 
-SS14.primer_binding.locations.file <- paste0(Data_input_directory,"TP.disc.primalscheme.primerset.684_20220613.primer-location-hits-SS14.tsv")
+SS14.primer_binding.locations.file <- paste0(Data_input_directory,"TP.disc.primalscheme.primerset.684_20220613.primer-location-hits-SS14.tsv.gz")
 
 primalscheme.design.bed.file <- paste0(Data_input_directory,"TP.disc.primalscheme.primerset.684.bed") 
 
 #############################################
 # In silico validation files
-in_silico_pcr.results.file <- paste0(Data_input_directory,"in_silico_pcr.amplicon.recovery_list.tsv")
+in_silico_pcr.results.file <- paste0(Data_input_directory,"in_silico_pcr.amplicon.recovery_list.tsv.gz")
 
 # primer blast search results
 primer.search.output.all2.file <- paste0(Data_input_directory,"TP.disc.primalscheme.primerset.684__primerBLAST_20220616.tsv")
@@ -123,27 +125,30 @@ primer.blast.species.hits.precalc.file <- paste0(Data_input_directory,"TP.disc.p
 # 23S primer design files
 TPA.refseq.file <- paste0(Data_input_directory,"23S_Nichols_2-operons1.fa")
 
-COBS661K_window.search.23S.file <- paste0(Data_input_directory,"23S_Nichols_2-operons1.71bp-windows.20220623.fa_1_COBS-661K_results_table.txt")
+COBS661K_window.search.23S.file <- paste0(Data_input_directory,"23S_Nichols_2-operons1.71bp-windows.20220623.fa_1_COBS-661K_results_table.txt.gz")
 
-COBS661K.metadata.file <- paste0(Data_input_directory,"Blackwell2018__File2_taxid_lineage_661K.txt")
+COBS661K.metadata.file <- paste0(Data_input_directory,"Blackwell2018__File2_taxid_lineage_661K.txt.gz")
 
 # Primalscheme 23S design
 primalscheme.design.23S.file <- paste0(Data_input_directory,"23S_scheme_primalscheme.primer.tsv")
 
-primer.blast.23s.output.all.file <- paste0(Data_input_directory,"23S_o1_Nich_variable-site-masking.20220624.primerblast.searches.tsv")
+primer.blast.23s.output.all.file <- paste0(Data_input_directory,"23S_o1_Nich_variable-site-masking.20220624.primerblast.searches.tsv.gz")
 
 
 #############################################
 # South Africa Validation - MinION QC data 
-TP20230502SA.readLength.filt.file <- paste0(Data_input_directory,"SouthAfrica_TP_Discriminatory_SA1+2+3-all_read-lengths_filt.tsv")
+TP20230502SA.readLength.filt.file <- paste0(Data_input_directory,"SouthAfrica_TP_Discriminatory_SA1+2+3-all_read-lengths_filt.tsv.gz")
 
-TP20230502SA.readLength.unfilt.file <- paste0(Data_input_directory,"SouthAfrica_TP_Discriminatory_SA1+2+3-all_read-lengths_unfilt.tsv")
+TP20230502SA.readLength.unfilt.file <- paste0(Data_input_directory,"SouthAfrica_TP_Discriminatory_SA1+2+3-all_read-lengths_unfilt.tsv.gz")
 
-TP20230502SA.region.depth.file <- paste0(Data_input_directory,"TP_Discriminatory.SA1+SA2+SA3_filtered.depth_redo-2023-12-01.tsv")
+TP20230502SA.region.depth.file <- paste0(Data_input_directory,"TP_Discriminatory.SA1+SA2+SA3_filtered.depth_redo-2023-12-01.tsv.gz")
 
 TP_SA.lab.metadata.file <- paste0(Data_input_directory,"SuppTable3__SouthAfrica_ONT-vs-Illumina_metadata.xlsx")
 
 SA.Ampliseq_vs_IlluminaWGS.vcf.file <- paste0(Data_input_directory,"TP_SA1+2+3_Minion_vs_Illumina.all.2023-12-01.restrict-regions_good-regions.vcf")
+
+# reanalysis of original data using ONTAP nextflow pipeline
+SA_ONT_R9_variants_ONTAP_repeat_calls.file <- paste0(Data_input_directory, "ONTAP_R9_SA1+2+3_allsites.merge.vcf") 
 
 #############################################
 # Post validation primer dataset
@@ -163,6 +168,9 @@ revised_candidate.amplicon.SNP.seqs.alignment.tree.filename <- paste0(Data_input
 
 # Predicted amplicon sequence SNP alignment for final scheme with 608 genome design dataset 
 candidate.amplicon.SNP.seqs.alignment.fasta.filename <- paste0(Data_input_directory,"TPAE-selected-sites_n174sites__revised_amplicons.608dataset.20240528.fas")
+
+# Ancestrally reconstructed tree, with N sites filled based on reconstruction
+revised_candidate.amplicon.SNP.seqs.alignment.pyjar.tree.filename <- paste0(Data_input_directory,"TPAE-selected-sites_n174sites__revised_amplicons.608dataset.20240528.pyjar.joint.tre")
 
 #############################################
 # Comparing different datasets against the WGS tree
@@ -199,6 +207,21 @@ sim.WGS.mutant.folder <- paste0(Data_input_directory,"simulated_mutations_250-si
 
 # Precalculated counts for all simulations and mutation frequencies
 paste0(sim.WGS.mutant.folder, "SS14.mutate_sim.amplicon_site_counts__collated.csv")
+
+#############################################
+# Analysis of MLST calls
+TPAE_dataset.mlst_calls.file <- paste0(Data_input_directory,"Phylo-Plex_dataset__MLST_Method_Comparisons__2025-04-29.xlsx")
+
+
+#############################################
+# Taouk Gonorrhoea analysis
+Taouk_gono.metadata.file <- paste0(Gono_data,"Taouk_supdata_41467_2024_52343_MOESM4_ESM.xlsx")
+Taouk_gono.processed.vcf.file <- paste0(Gono_data,"clean.SNPs.vcf.gz_processed_spread.tsv.gz")
+Taouk_gono.FST.file <- paste0(Gono_data,"clean.SNPs.vcf.gz_processed_spread.parallel.FST.scoring.csv.gz")
+Taouk_gono.processed.vcf.melt_in.phycons.file <- paste0(Gono_data,"clean.SNPs.vcf.gz_processed.tsv.gz_filtered_phycons.29396.tsv.gz")
+Gono_Phycon_tree.file <- paste0(Gono_data,"Taouk_filtered_phycons.IQtree.tre")
+Gono_WGS_tree.file <- paste0(Gono_data,"Taouk_snippy_clean.SNPs.aln.IQtree.tre")
+Taouk_clean.SNPs_phycons_fasta.file <- paste0(Gono_data, "clean.SNPs.vcf.gz_processed.tsv.gz_filtered_phycons.fa") # needs to be gunzipped
 
 
 ```
@@ -1395,7 +1418,7 @@ TPA.TPE.scheme.list.cumulative.counts <- data.frame(population=c(paste0("sublin-
 site.support.threshold <- 3
 
 for (current.count in seq(14,1)){
-  # within loop, create dataset based on how many pops each site is discriminatory for (many = better)
+  # within loop, create dataset based on how many pops each region is discriminatory for (many = better)
   pops_per_region.current <- genomic.sites.retained.FSTpop_pops_per_region.with.singles %>% dplyr::filter(pop.count==current.count)
   
   # Now filter dataset to only include those haplotypes and get counts per population
@@ -2141,10 +2164,35 @@ COBS661K_window.search.23S$window.midpoint <- (COBS661K_window.search.23S$window
 
 
 COBS661K_window.search.23S %>%
+  group_by(query) %>%
+  summarise(query_count = n()) %>%
+  arrange(desc(query_count))
+
+
+COBS661K_window.search.23S %>%
   group_by(major_species) %>%
   summarise(Species_count=n()) %>%
   arrange(desc(Species_count))
 
+COBS661K_window.search.23S %>%
+  filter(query == "23S__235035-235106") %>%
+  group_by(major_species) %>%
+  summarise(Species_count=n()) %>%
+  arrange(desc(Species_count))
+
+COBS661K_window.search.23S %>%
+  #filter(major_species == "Treponema pallidum") %>%
+  filter(grepl("Treponema", major_species)) %>%
+  group_by(query) %>%
+  summarise(Treponema_query_count=n()) %>%
+  arrange(desc(Treponema_query_count))
+
+COBS661K_window.search.23S %>%
+  filter(major_species == "Treponema pallidum") %>%
+  #filter(grepl("Treponema", major_species)) %>%
+  group_by(query) %>%
+  summarise(Treponema_query_count=n()) %>%
+  arrange(desc(Treponema_query_count))
 
 p.COBS661K_window.search.23S_all <- COBS661K_window.search.23S %>% 
   group_by(query, window.midpoint) %>%
@@ -2580,28 +2628,63 @@ gheatmap(revised_candidate.amplicon.SNP.seqs.alignment.tree.gg.circ, d.TPAE.pine
 \
 It's a bit messy to code these tanglegrams. Can we turn this into a function?
 ```{r}
-plot_tanglegram <- function(mytree1, mytree2, mymetadata, colorscheme=TPA.TPE.scheme.cols, scale_difference=2000, centre_separation=200, pointsize=1, left_label_offset=0.15, right_label_offset=0.9){
+# mytree1= WGS.ML.tree.ult
+# mytree2= revised_candidate.amplicon.SNP.seqs.alignment.tree
+# mymetadata=data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F)
+# colorscheme=TPA.TPE.scheme.cols
+# scale_difference = 1750
+# centre_separation = 250
+# pointsize=1
+# left_label_offset=0.15
+# right_label_offset=0.9
+# left_ladder=F
+# right_ladder=F
+# line_alpha=0.5
+# point_alpha=0.15
+# untangle=F # note, this can slow the code down substantially for big trees
+
+plot_tanglegram <- function(mytree1, mytree2, mymetadata, colorscheme=TPA.TPE.scheme.cols, scale_difference=2000, centre_separation=200, pointsize=1, left_label_offset=0.15, right_label_offset=0.9, left_ladder=F, right_ladder=F, line_alpha=0.5, point_alpha=0.15, untangle=F){
   # Extract color variable name (1)
   colvar1.name <- colnames(mymetadata)[2]
+  colnames(mymetadata) <- c("Sample_Name",colvar1.name)
   # Prepare color scheme
   colorscheme.temp <- colorscheme
   colnames(colorscheme.temp) <- c("variable","color")
   
+  # untangle tips (to improve alignment without changing topology)
+  if (untangle==T){
+    mytree1 <- ape::ladderize(mytree1, right = F)
+    mytree2 <- ape::ladderize(mytree2, right = F)
+    untangled.object.temp <- phytools::untangle(c(mytree1, mytree2),  method = "stepwise")
+    mytree1 <- untangled.object.temp[[1]]
+    mytree2 <- untangled.object.temp[[2]]
+  }
   # Prepare trees and append metadata
-  mytree1.gg <- ggtree(mytree1, size=0.4)
+  if (left_ladder == F){
+    mytree1.gg <- ggtree(mytree1, size=0.4, ladderize = F)
+  } else {
+    mytree1.gg <- ggtree(mytree1, size=0.4, ladderize = T, right=T)  
+  }
   mytree1.gg <- mytree1.gg %<+% mymetadata +
-    geom_tippoint(aes_string(color=colvar1.name), size=pointsize, alpha=0.15) +
+    geom_tippoint(aes_string(color=colvar1.name), size=pointsize, alpha=point_alpha) +
     theme.text.size  
   
-  mytree2.gg <- ggtree(mytree2, size=0.4)
+  if (right_ladder == F){
+    mytree2.gg <- ggtree(mytree2, size=0.4, ladderize = F)
+  } else {
+    mytree2.gg <- ggtree(mytree2, size=0.4, ladderize = T, right=T)
+  }
   mytree2.gg <- mytree2.gg %<+% mymetadata + 
     # Note that tippoints won't display for the second tree using geom_tippoint - need to do a workaround using geom_point
     #geom_tippoint(aes_string(color=colvar1.name), size=pointsize, alpha=0.15) + 
     theme.text.size  
   
   # Convert each to dataframes
-  mytree1.d <- fortify(mytree1)
-  mytree2.d <- fortify(mytree2)
+  #mytree1.d <- fortify(mytree1)
+  #mytree2.d <- fortify(mytree2)
+  
+  mytree1.d <- mytree1.gg$data
+  mytree2.d <- mytree2.gg$data
   
   # reverse x-axis and set offset to make the tree on the right hand side of the first tree
   # this includes a scaling variable to adjust right-hand tree, since some trees may be very flat
@@ -2609,14 +2692,14 @@ plot_tanglegram <- function(mytree1, mytree2, mymetadata, colorscheme=TPA.TPE.sc
   
   # Prepare dataframe for second tree with tip point colors
   mytree2.meta <- mytree2.d %>% 
-    filter(isTip==T) %>% 
-    left_join(mymetadata, by=c("label"="Sample_Name"))
-
+    filter(isTip==T) #%>% 
+    #left_join(mymetadata, by=c("label"="Sample_Name"))
+  
   # Create initial plot of paired trees
   mytrees.pp <- mytree1.gg + 
     #ggnewscale::new_scale_color() +
     geom_tree(data=mytree2.d) + 
-    geom_point(data=mytree2.meta, aes_string("x", "y", color=colvar1.name), size=pointsize, alpha=0.25) +
+    geom_point(data=mytree2.meta, aes_string("x", "y", color=colvar1.name), size=pointsize, alpha=point_alpha) +
     ggnewscale::new_scale_fill() 
   
   # calculate intersections between trees for plotting lines
@@ -2626,10 +2709,10 @@ plot_tanglegram <- function(mytree1, mytree2, mymetadata, colorscheme=TPA.TPE.sc
   
   # add sublineage metadata for colors
   col.variable.name <- colnames(mytree1.gg$data[,10])
-  mytrees.dd <- left_join(mytrees.dd, mytree1.gg$data[,c("label",col.variable.name)], by='label')
+  #mytrees.dd <- left_join(mytrees.dd, mytree1.gg$data[,c("label",col.variable.name)], by='label')
   
   # plot combined tree with intersection lines
-  mytrees_tangle.lines.ggtree <- mytrees.pp + geom_line(aes_string("x", "y", group="label",color=col.variable.name), data=mytrees.dd,  alpha=0.5, size=0.25)
+  mytrees_tangle.lines.ggtree <- mytrees.pp + geom_line(aes_string("x", "y", group="label",color=col.variable.name), data=mytrees.dd,  alpha=line_alpha, size=0.25)
   
   # add tree headers 
   mytrees_tanglegram.labels <- data.frame(label.x = c(max(mytree2.d$x)*left_label_offset, max(mytree2.d$x)*right_label_offset), 
@@ -2638,17 +2721,34 @@ plot_tanglegram <- function(mytree1, mytree2, mymetadata, colorscheme=TPA.TPE.sc
   
   mytrees_tangle.lines.ggtree <- mytrees_tangle.lines.ggtree + geom_text(data=mytrees_tanglegram.labels, aes(y=label.y, x=label.x, label=label.text)) +
     theme(legend.key.size = unit(0.55,"line"),legend.position='right') +
-    scale_color_manual(breaks=colorscheme.temp$variable, values=colorscheme.temp$color, name="Sublineage",na.value = "grey95", guide = guide_legend(order=1))
+    scale_color_manual(breaks=colorscheme.temp$variable, values=colorscheme.temp$color, name="Sublineage",na.value = NA, guide = guide_legend(order=1))
   
   return(mytrees_tangle.lines.ggtree)
 }
 
 ```
+\
+
+testing
+```{r, eval=F}
+# test.tree1 <- ggtree(WGS.ML.tree.ult, size=0.4, right=T) %<+% data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F) 
+# 
+# test.tree1$data
+
+#cophylo.object.temp <- phytools::cophylo(WGS.ML.tree.ult, revised_candidate.amplicon.SNP.seqs.alignment.tree, rotate.multi=T)
+
+# cophylo.object.temp <- phytools::untangle(c(WGS.ML.tree.ult, revised_candidate.amplicon.SNP.seqs.alignment.tree), method = "stepwise")
+```
+
+\
+
+
+
 
 \
 Now plot
 ```{r, fig.width=8, fig.height=8}
-p.WGS_dataset_vs_56amplicon_finalsites_tanglegram <- plot_tanglegram(WGS.ML.tree.ult, revised_candidate.amplicon.SNP.seqs.alignment.tree, data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 1750, centre_separation = 250)
+p.WGS_dataset_vs_56amplicon_finalsites_tanglegram <- plot_tanglegram(WGS.ML.tree.ult, revised_candidate.amplicon.SNP.seqs.alignment.tree, data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), colorscheme = TPA.TPE.scheme.cols, scale_difference = 1750, centre_separation = 250, untangle=T)
 
 p.WGS_dataset_vs_56amplicon_finalsites_tanglegram <- p.WGS_dataset_vs_56amplicon_finalsites_tanglegram + theme(legend.position = c(0.875, 0.6))
 
@@ -2664,7 +2764,7 @@ What about extracting and comparing subtrees?
 # TPA only
 p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPA.only <- plot_tanglegram(keep.tip(WGS.ML.tree.ult, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA") %>% pull(Cleaned_fastq_id) ), 
                 keep.tip(revised_candidate.amplicon.SNP.seqs.alignment.tree, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA") %>% pull(Cleaned_fastq_id) ), 
-                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 1000, centre_separation = 10) +
+                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 1000, centre_separation = 10, untangle=T) +
   ggtitle("TPA only")
 
 p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPA.only
@@ -2673,7 +2773,7 @@ p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPA.only
 # TPE only
 p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPE.only <- plot_tanglegram(keep.tip(WGS.ML.tree.ult, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPE") %>% pull(Cleaned_fastq_id) ), 
                 keep.tip(revised_candidate.amplicon.SNP.seqs.alignment.tree, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPE") %>% pull(Cleaned_fastq_id) ), 
-                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 250, centre_separation = 5, pointsize=2) +
+                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 250, centre_separation = 5, pointsize=2, untangle=T) +
   ggtitle("TPE only")
 
 p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPE.only
@@ -2683,13 +2783,13 @@ p.WGS_dataset_vs_56amplicon_finalsites_tanglegram__TPE.only
 # SS14 TPA only
 plot_tanglegram(keep.tip(WGS.ML.tree.ult, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA", TPA_Lineage=="SS14") %>% pull(Cleaned_fastq_id) ), 
                 keep.tip(revised_candidate.amplicon.SNP.seqs.alignment.tree, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA", TPA_Lineage=="SS14") %>% pull(Cleaned_fastq_id) ), 
-                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 1000, centre_separation = 5) +
+                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 1000, centre_separation = 5, untangle=T) +
   ggtitle("SS14 TPA only")
 
 # Nichols TPA only
 plot_tanglegram(keep.tip(WGS.ML.tree.ult, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA", TPA_Lineage=="Nichols") %>% pull(Cleaned_fastq_id) ), 
                 keep.tip(revised_candidate.amplicon.SNP.seqs.alignment.tree, filter(TPA.meta1, Cleaned_fastq_id %in% WGS.ML.tree.ult$tip.label, Species=="TPA", TPA_Lineage=="Nichols") %>% pull(Cleaned_fastq_id) ), 
-                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 500, centre_separation = 10, pointsize=2) +
+                data.frame(Sample_Name=TPAE.pinecone.10$Taxa, TPAE.pinecone=TPAE.pinecone.10$TPA.TPE.scheme, stringsAsFactors=F), TPA.TPE.scheme.cols, scale_difference = 500, centre_separation = 10, pointsize=2, untangle=T) +
   ggtitle("Nichols TPA only")
 ```
 \
@@ -2911,7 +3011,7 @@ data.frame(Sample_Name=TPA.TPE.scheme.cols$TPA.TPE.sublineage, TPAE.pinecone=TPA
 collapsed_WGS.tree
 collapsed_AmpliconPCR.tree
 
-plot_tanglegram(collapsed_WGS.tree, collapsed_AmpliconPCR.tree, data.frame(Sample_Name=TPA.TPE.scheme.cols$TPA.TPE.sublineage, TPAE.pinecone=TPA.TPE.scheme.cols$TPA.TPE.sublineage, stringsAsFactors=F), colorscheme = TPA.TPE.scheme.cols, scale_difference = 500, centre_separation = 50, pointsize = 2.5, right_label_offset = 1) + theme(legend.position = 'bottom')
+plot_tanglegram(collapsed_WGS.tree, collapsed_AmpliconPCR.tree, data.frame(Sample_Name=TPA.TPE.scheme.cols$TPA.TPE.sublineage, TPAE.pinecone=TPA.TPE.scheme.cols$TPA.TPE.sublineage, stringsAsFactors=F), colorscheme = TPA.TPE.scheme.cols, scale_difference = 500, centre_separation = 50, pointsize = 2.5, right_label_offset = 1, untangle=T) + theme(legend.position = 'bottom')
 
 ```
 
@@ -2989,31 +3089,52 @@ What about distinguishing sublineage membership?
 \
 Want to know if samples with identical amplicon profiles can be part of different WGS sublineages (hopefully they are not).
 ```{r}
-# extract pairwise cophenetic distance matrix from tree
-#PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist <- ape::cophenetic.phylo(PhyloSeq_Amplicon_tree.fixed.tre.noSing)
-
-
 # Or do it directly from the SNP alignment using pairsnp (which would mean things are scaled by SNPs rather than distance)
 
 # candidate.amplicon.SNP.seqs.alignment.fasta.filename
 candidate.amplicon.SNP.seqs.alignment.sparse.data <- import_fasta_sparse(candidate.amplicon.SNP.seqs.alignment.fasta.filename)
 candidate.amplicon.SNP.seqs.alignment.distances <- pairsnp::snp_dist(candidate.amplicon.SNP.seqs.alignment.sparse.data)
 
-PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt <- data.frame(Taxa1=row.names(candidate.amplicon.SNP.seqs.alignment.distances),candidate.amplicon.SNP.seqs.alignment.distances)  
-colnames(PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt) <- c("Taxa1",row.names(PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt))
 
-PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt <- PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt %>% 
-  pivot_longer(-Taxa1, names_to="Taxa2", values_to = "Distance.Phylo") 
+PhyloSeq_Amplicon_tree.fixed.tre.noSing.pairsnp__dist.melt <- data.frame(candidate.amplicon.SNP.seqs.alignment.distances, check.names = F) %>% 
+  rownames_to_column("Taxa1") %>%
+  pivot_longer(-Taxa1, names_to = "Taxa2", values_to = "Distance.Phylo")
+
 
 # plot distribution of distances
-PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt %>%
+PhyloSeq_Amplicon_tree.fixed.tre.noSing.pairsnp__dist.melt %>%
+  ggplot(aes(Distance.Phylo)) + geom_histogram() + theme_bw()
+```
+\
+\
+If we use pairsnp to do this, there is a problem, because the WGS data we are inferring from contains low coverage sites marked as 'N' which pairsnp does not count - they are considered 'identical'. This can be a problem for network building. On the other hand, if we include every 'N' sites, it would become much more messy than the reality (in which we would have high depth ONT SNP calls. 
+
+For the purposes of this in silico demonstration, we will use ancestrally reconstructed SNPs at the internal nodes (i.e. via pyjar) to calculate the SNP distances between samples. 
+
+```{r}
+# import pyjar tree of amplicons
+revised_candidate.amplicon.SNP.seqs.alignment.pyjar.tree <- midpoint.root(read.tree(revised_candidate.amplicon.SNP.seqs.alignment.pyjar.tree.filename))
+
+# extract pairwise cophenetic distance matrix from tree
+PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist <- ape::cophenetic.phylo(revised_candidate.amplicon.SNP.seqs.alignment.pyjar.tree)
+
+PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist.melt <- data.frame(PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist, check.names = F) %>% 
+  rownames_to_column("Taxa1") %>%
+  pivot_longer(-Taxa1, names_to = "Taxa2", values_to = "Distance.Phylo")
+  
+PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist.melt
+
+# plot distribution of distances
+PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist.melt %>%
   ggplot(aes(Distance.Phylo)) + geom_histogram() + theme_bw()
 ```
 
-{# plot distribution of distances
-PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt %>%
-  ggplot(aes(Distance.Phylo)) + geom_histogram()
+
+\
+
 ```{r}
+PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt <- PhyloSeq_Amplicon_tree.fixed.tre.pyjar__dist.melt
+
 #################
 # Add sublineage metadata
 PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt__meta <- treespace.metadata.df %>%
@@ -3045,6 +3166,8 @@ PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt__meta_d0 <- PhyloSeq_Amplicon
   distinct(taxa_combination, .keep_all = T)
 
 PhyloSeq_Amplicon_tree.fixed.tre.noSing__dist.melt__meta_d0
+
+# Remove singleton sublineages from this analysis
 ```
 \
 
@@ -3062,7 +3185,23 @@ Amplicon_dataset.0d.network.gg$Taxa1 <- Amplicon_dataset.0d.network.gg$vertex.na
 
 # extract SNP clusters from network using iGraph
 Amplicon_dataset.0d.network.ig <- asIgraph(Amplicon_dataset.0d.network)
-Amplicon_dataset.0d.network.components <- data.frame(Taxa1=network.vertex.names(Amplicon_dataset.0d.network), vertex.no=as.vector(V(Amplicon_dataset.0d.network.ig)), cluster=igraph::components(Amplicon_dataset.0d.network.ig)$membership)
+
+# Amplicon_dataset.0d.network.components <- data.frame(Taxa1=network.vertex.names(Amplicon_dataset.0d.network), vertex.no=as.vector(V(Amplicon_dataset.0d.network.ig)), cluster=igraph::components(Amplicon_dataset.0d.network.ig)$membership)
+
+
+Amplicon_dataset.0d.network.components <- data.frame(Taxa1=network.vertex.names(Amplicon_dataset.0d.network), vertex.no=as.vector(V(Amplicon_dataset.0d.network.ig)), cluster.temp=igraph::components(Amplicon_dataset.0d.network.ig)$membership)
+
+# Relabel clusters based on size
+Amplicon_dataset.0d.network.components <- Amplicon_dataset.0d.network.components %>%
+  group_by(cluster.temp) %>%
+  summarise(cluster_size = n(), .groups = "drop") %>%
+  arrange(desc(cluster_size)) %>%
+  mutate(cluster.id = row_number()) %>%
+  right_join(Amplicon_dataset.0d.network.components, by="cluster.temp") %>%
+  mutate(cluster=cluster.id) %>%
+  select(Taxa1, vertex.no, cluster)
+ # Amplicon_dataset.0d.network.components
+
 Amplicon_dataset.0d.network.components$SNPcluster <- paste0("SC",Amplicon_dataset.0d.network.components$cluster)
 
 # merge metadata back in
@@ -3100,6 +3239,7 @@ Amplicon_dataset.0d.network.gg__distinct.SNPclusters <- Amplicon_dataset.0d.netw
 
 
 Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sumstats <- Amplicon_dataset.0d.network.gg__distinct.SNPclusters %>%
+  #filter(Population_sl != "sublin-Singleton") %>% # remove singletons from sublineage list
   group_by(network.cluster) %>%
   mutate(total.net.cluster=n()) %>%
   ungroup() %>%
@@ -3118,6 +3258,8 @@ Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sumstats <- Amplicon_datase
   dplyr::arrange(desc(Population_sl), .by_group=T) %>%
   dplyr::mutate(fraction=Count/total.region, cum_fract=cumsum(fraction), cum_fract.mid = cum_fract-(fraction/2))
 
+
+  
 p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.bar <- Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sumstats %>% 
   ggplot(aes(x=network.cluster, y=Count, fill=Population_sl)) +
   geom_bar(stat='identity', width=0.65, position='fill', alpha=0.8) +
@@ -3147,6 +3289,21 @@ p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.ba
 plot_grid(p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.bar, p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.bar_mixeds, ncol=1)
 ```
 \
+Explore the mixtures a bit more 
+```{r}
+p.Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sublineage.composition.bar_mixeds
+
+Amplicon_dataset.0d.network.gg__distinct.SNPcluster__sumstats %>% 
+  filter(fraction!=1) 
+  
+
+Amplicon_dataset.0d.network.gg__distinct.SNPclusters
+Amplicon_dataset.0d.network.gg
+
+```
+
+
+
 \
 Maybe also show a plot of the WGS tree that indicates which sublineages are not fully delineated using the final PCR scheme
 ```{r}
@@ -3296,7 +3453,7 @@ UK_Illumina_data.__AmpliSeq_sim.df.spread <- UK_Illumina_data.__AmpliSeq_sim.df 
   pivot_wider(names_from="POS", values_from = "gt_GT_alleles")
 
 UK_Illumina_data.__AmpliSeq_sim.seqs <- UK_Illumina_data.__AmpliSeq_sim.df.spread %>% 
-  unite("sequence", sep = "", -Indiv, remove = TRUE)
+  tidyr::unite("sequence", sep = "", -Indiv, remove = TRUE)
 UK_Illumina_data.__AmpliSeq_sim.seqs
 
 UK_Illumina_data.__AmpliSeq_sim.seqs <- UK_Illumina_data.__AmpliSeq_sim.seqs %>% filter(Indiv != "NC_021508_1_1")
@@ -3329,13 +3486,16 @@ ggtree(UK_Illumina_data.__AmpliSeq_sim.pyjar.phylo)
 
 Read in grapetree plot (in Beale 2023, snp-scaled trees were used as input to grapetree to produce snp-scaled minimum spanning trees). This will allow replication of the minimum spanning trees from Beale 2023 using the amplicon data. 
 ```{r}
+#findme
+
+
 # Amplicon derived minimum spanning tree plot: UK_Illumina_data.__AmpliSeq_sim.pyjar.grapetree.file
 
 # WGS derived minimum spanning tree plot: UK_Illumina_WGS_grapetree.file
 
-p.UK_Illumina_data.__AmpliSeq_sim.pyjar.grapetree <- ggdraw() + draw_image(UK_Illumina_data.__AmpliSeq_sim.pyjar.grapetree.file)
+p.UK_Illumina_data.__AmpliSeq_sim.pyjar.grapetree <- ggdraw() + draw_image(UK_Illumina_data.__AmpliSeq_sim.pyjar.grapetree.file, interpolate = T)
 
-p.UK_Illumina_WGS_grapetree <- ggdraw() + draw_image(UK_Illumina_WGS_grapetree.file)
+p.UK_Illumina_WGS_grapetree <- ggdraw() + draw_image(UK_Illumina_WGS_grapetree.file, interpolate = T)
 
 
 
@@ -3389,24 +3549,39 @@ Identify samples and regions that perform well or poorly in general
 TP20230502SA.region.depth.good.samples.tab <- TP20230502SA.region.depth.meta %>% 
   group_by(barcode) %>%
   summarise(mean.cov=mean(Mean_Cov), quant.5pc=quantile(Mean_Cov, 0.05)) %>%
-  mutate(poor.performing.samples=ifelse(mean.cov<50, "Poor","ok")) 
+  mutate(poor.performing.samples=ifelse(mean.cov<50, "Poor","ok")) # classify samples as poor/ok based on mean coverage <50x
 TP20230502SA.region.depth.good.samples.tab
 
 TP20230502SA.region.depth.good.samples.tab %>% 
   group_by(poor.performing.samples) %>% summarise(count=n())
 
 TP20230502SA.region.depth.good.samples.list2 <- TP20230502SA.region.depth.good.samples.tab  %>%
-  filter(poor.performing.samples!="Poor")%>% 
-  pull(barcode)
+  filter(poor.performing.samples!="Poor") %>% 
+  pull(barcode) # make a list of 'good samples' with mean cov >=50x
 
-# Filter amplicons (exclude samples that do poorly in general first)
+
+####################
+# Now look at the amplicons 
+# First remove the poorly performing samples (so they don't excessively bias the analysis)
 TP20230502SA.region.depth.consistent.amplicons.tab <- TP20230502SA.region.depth.meta %>% 
-  filter(barcode %in% TP20230502SA.region.depth.good.samples.list2) %>%
+  filter(barcode %in% TP20230502SA.region.depth.good.samples.list2) %>% # filter genomes to have mean cov >50x
   group_by(Region) %>%
+  #mutate(quant.10pc=quantile(Mean_Cov, 0.10)) %>% relocate(quant.10pc) # checking
+  # so the above effectively says "what is the mean coverage for the 10% quantile (i.e. top of the bottom 10%) in each region/amplicon?"
+###### Calculate metrics for each amplicon - what is the mean coverage for the 10% quantile in each amplicon/region?
   summarise(mean.cov=mean(Mean_Cov),median.cov=median(Median_Cov), min.cov=min(Mean_Cov), max.cov=max(Mean_Cov), quant.5pc=quantile(Mean_Cov, 0.05), quant.95pc=quantile(Mean_Cov, 0.95), quant.10pc=quantile(Mean_Cov, 0.10), quant.90pc=quantile(Mean_Cov, 0.90)) %>% 
+  # filters out amplicons where the the 10th percentile for mean amplicon coverage is <25x
+  # specifically filters amplicons
   filter(quant.10pc>25)
-# filters amplicons that are below the 10th percentile for mean amplicon coverage
 TP20230502SA.region.depth.consistent.amplicons.tab
+
+
+# So there are two filters:
+# - Mean coverage > 50x for total sample (filters samples)
+# Amongst the good samples:
+# - >90% of samples must achieve >25x mean coverage (filters amplicons)
+
+
 
 TP20230502SA.region.depth.consistent.amplicons.list <- TP20230502SA.region.depth.consistent.amplicons.tab %>% pull(Region)
 ```
@@ -3423,9 +3598,12 @@ TP20230502SA.region.depth.meta %>%
 Plot
 ```{r, fig.height=8, fig.width=8}
 p.SA.meancov_vs_Ct.facet.scatter <- TP20230502SA.region.depth.meta %>%
-  mutate(`<20X`=ifelse(Mean_Cov<25, "yes","no")) %>%
+  #mutate(`<20X`=ifelse(Mean_Cov<25, "yes","no")) %>%
   mutate(good.amplicon=ifelse(Region %in% TP20230502SA.region.depth.consistent.amplicons.list, "yes","no")) %>%
   mutate(Region.alt = gsub("all","region", Region)) %>%
+  mutate(Region.num = as.numeric(gsub("region\\_","",Region.alt))) %>%
+  arrange(Region.num) %>%
+  mutate(Region.alt = factor(Region.alt, levels=unique(Region.alt))) %>% # to order facets numerically
   #ggplot(aes(Tp47_qPCR_Ct, Mean_Cov, color=`<25X`)) +
   ggplot(aes(Tp47_qPCR_Ct, Mean_Cov, color=good.amplicon)) +
     geom_point(alpha=0.25, size=1) +
@@ -3433,55 +3611,67 @@ p.SA.meancov_vs_Ct.facet.scatter <- TP20230502SA.region.depth.meta %>%
     facet_wrap(vars(Region.alt)) +
     theme_bw() +
     theme.text.size + x.theme.axis.rotate.angle +
-    geom_hline(yintercept=25, color='blue', linewidth=0.5, alpha=0.8) +
+    geom_hline(yintercept=50, color='blue', linewidth=0.5, alpha=0.8) +
     labs(y="Mean Coverage (X) per amplicon", x="qPCR Ct", title = "Mean sequencing coverage by sample input per amplicon") +
     scale_color_manual(values=c("grey5", "red"), breaks=c("yes","no")) +
   theme(legend.position='bottom')
   
 p.SA.meancov_vs_Ct.facet.scatter <- rasterize(p.SA.meancov_vs_Ct.facet.scatter, layers='Point', dpi=400)
 
-p.SA.meancov_vs_Ct.facet.scatter
+rep
 
 #ggsave(plot=p.SA.meancov_vs_Ct.facet.scatter, paste0(Figures_directory,"SuppFig9__PCR-amplicon-performance.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=180, device='pdf', dpi=400)
 ```
 \
 Also look at per-sample performance
 ```{r, fig.width=8, fig.height=8}
+# Calculate mean coverage for each sample
+TP20230502SA.region.depth__mean.sample.cov <- TP20230502SA.region.depth.meta %>% 
+  group_by(barcode) %>%
+  summarise(mean.cov=mean(Mean_Cov)) %>%
+  mutate(MinION_Sequencing_Run = gsub("\\_barcode.+$","", barcode)) %>%
+  mutate(SeqRun = recode(MinION_Sequencing_Run, 'SA1_20230426' = 'Run1', 'SA2_20230428' = 'Run2', 'SA3_20230502' = 'Run3'))
+
+# Plot 
 p.SA.meancov_vs_Ct__per_sample.facet.scatter <- TP20230502SA.region.depth.meta %>%
-  mutate(`<20X`=ifelse(Mean_Cov<20, "yes","no")) %>%
+  #mutate(`<20X`=ifelse(Mean_Cov<20, "yes","no")) %>%
   mutate(good.amplicon=ifelse(Region %in% TP20230502SA.region.depth.consistent.amplicons.list, "yes","no")) %>%
   mutate(Region.alt = gsub("all","region", Region)) %>%
   arrange(Tp47_qPCR_Ct) %>%
   mutate(barcode=factor(barcode, levels=unique(barcode))) %>%
-  #ggplot(aes(barcode, Mean_Cov, color=`<20X`)) +
+  mutate(SeqRun = recode(MinION_Sequencing_Run, 'SA1_20230426' = 'Run1', 'SA2_20230428' = 'Run2', 'SA3_20230502' = 'Run3')) %>%
   ggplot(aes(barcode, Mean_Cov, color=good.amplicon)) +
-  #geom_violin(alpha=0.25, size=0.5, inherit.aes = F, aes(barcode, Mean_Cov)) +
   geom_quasirandom(alpha=0.25, size=1) +
+  #stat_summary(fun = mean, geom = "crossbar", width = 1.2, color = "cyan", fatten = 0.75) +
+  geom_crossbar(data = TP20230502SA.region.depth__mean.sample.cov, aes(x = barcode, y = mean.cov, ymin = mean.cov, ymax = mean.cov), width = 1.2, color = "cyan", fatten = 0.75, inherit.aes = F) +
   scale_y_log10() +
-  #facet_wrap(vars(barcode)) +
   theme_bw() +
+  facet_grid(.~SeqRun, scale = "free_x", space = "free_x") +
   x.theme.axis.rotate.angle +
   theme.text.size + 
-  #theme(text = element_text(size = 9)) + 
   labs(y="Mean Coverage (X) per amplicon", x="Sample") +
   scale_color_manual(values=c("grey5", "red"), breaks=c("yes","no")) +
   theme(legend.position='bottom') +
-  geom_hline(yintercept=20, color='blue', linewidth=0.5, alpha=0.8)
+  geom_hline(yintercept=50, color='blue', linewidth=0.5, alpha=0.8) +
+  new_scale_color()
 p.SA.meancov_vs_Ct__per_sample.facet.scatter <- rasterize(p.SA.meancov_vs_Ct__per_sample.facet.scatter, layers='Point', dpi=400)
 #p.SA.meancov_vs_Ct__per_sample.facet.scatter
 
+
 p.SA.qPCR_values.scatter <- TP20230502SA.region.depth.meta %>%
-  distinct(barcode, Tp47_qPCR_Ct) %>%
+  distinct(barcode, Tp47_qPCR_Ct, .keep_all = T) %>%
   arrange(Tp47_qPCR_Ct) %>%
   mutate(barcode=factor(barcode, levels=unique(barcode))) %>%
+  mutate(SeqRun = recode(MinION_Sequencing_Run, 'SA1_20230426' = 'Run1', 'SA2_20230428' = 'Run2', 'SA3_20230502' = 'Run3')) %>%
   ggplot(aes(x=barcode, y=Tp47_qPCR_Ct)) +
   geom_point(size=0.5) +
+  facet_grid(.~SeqRun, scale = "free_x", space = "free_x") +
   theme_bw() +
   x.theme.axis.rotate.angle +
   theme.text.size
 #p.SA.qPCR_values.scatter
 
-p.SA.meancov_vs_Sample_vs_Ct__per_sample.combi <- plot_grid(p.SA.qPCR_values.scatter + x.theme.strip.labs, p.SA.meancov_vs_Ct__per_sample.facet.scatter, ncol=1, rel_heights = c(1,4), axis="lr", align="v", scale=0.90)
+p.SA.meancov_vs_Sample_vs_Ct__per_sample.combi <- plot_grid(p.SA.qPCR_values.scatter + x.theme.strip.labs + theme(plot.margin = unit(c(0,0,0,0), units = "lines")), p.SA.meancov_vs_Ct__per_sample.facet.scatter + theme(axis.text.x = element_blank()) + theme(strip.text.x = element_blank(), strip.background = element_blank(), plot.margin = unit(c(0,0,0,0), units = "lines") ), ncol=1, rel_heights = c(1,4), axis="lrtb", align="v", scale=0.95)
 
 p.SA.meancov_vs_Sample_vs_Ct__per_sample.combi
 
@@ -3774,6 +3964,7 @@ So only two Discrepancies:
 `# Likely missed due to low coverage at site (below threshold)`
 
 
+
 \
 \
 \
@@ -3818,7 +4009,8 @@ p.Zim.meancov_vs_Ct__per_sample.scatter <- collated.cov.zim %>%
   x.theme.axis.rotate.angle +
   theme.text.size + 
   labs(y="Mean Coverage (X) per amplicon", x="Sample") +
-  geom_hline(yintercept=25, color='blue', linewidth=0.5, alpha=0.8)
+  stat_summary(fun = median, geom = "crossbar", width = 1.2, color = "cyan", fatten = 0.75) +
+  geom_hline(yintercept=25, color='blue', linewidth=0.5, alpha=0.8) 
 p.Zim.meancov_vs_Ct__per_sample.scatter <- rasterize(p.Zim.meancov_vs_Ct__per_sample.scatter, layers='Point', dpi=400)
 
 p.Zim.meancov_vs_Ct__per_sample.scatter
@@ -3842,7 +4034,7 @@ p.Zim.qPCR_values.scatter
 p.Zim.meancov_vs_Sample_vs_Ct__per_sample.combi <- plot_grid(p.Zim.qPCR_values.scatter +x.theme.strip.labs, p.Zim.meancov_vs_Ct__per_sample.scatter, ncol=1, rel_heights = c(1,4), axis="lrtb", align="v", scale=0.95)
 p.Zim.meancov_vs_Sample_vs_Ct__per_sample.combi
 
-#ggsave(plot=p.Zim.meancov_vs_Sample_vs_Ct__per_sample.combi, paste0(Figures_directory,"SuppFig13__Zim-PCR-sample-cov.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=120, height=100, device='pdf', dpi=400)
+#ggsave(plot=p.Zim.meancov_vs_Sample_vs_Ct__per_sample.combi, paste0(Figures_directory,"SuppFig16__Zim-PCR-sample-cov.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=120, height=100, device='pdf', dpi=400)
 ```
 \
 \
@@ -4097,7 +4289,7 @@ p.simulated_mutations_in_amplicons <- SS14.mutate_sim.amplicon_site_counts__coll
 p.simulated_mutations_in_amplicons
 
 
-#ggsave(plot=p.simulated_mutations_in_amplicons, paste0(Figures_directory,"SuppFig14__Simulate-mutational-freqs.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=180, device='pdf', dpi=400)
+#ggsave(plot=p.simulated_mutations_in_amplicons, paste0(Figures_directory,"SuppFig17__Simulate-mutational-freqs.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=180, device='pdf', dpi=400)
 ```
 
 \
@@ -4274,13 +4466,113 @@ primalscheme.design.summary_all %>%
 
 
 ########## 
-# Revisions - April 2025
+# Revisions - April-August 2025
 ## New analyses added (others integrated earlier)
 
 \
 \
+### Rerun SA data from R9.4.1 flowcells using updated ONTAP pipeline 
+\
+The South African ONT data was run using R9.4.1 chemistry, and analysed using an in house pipeline. This was subsequently replaced with the ONTAP pipeline (https://github.com/sanger-pathogens/ONTAP) for field work in Zimbabwe. A number of refinements and additional QC steps were introduced for ONTAP, and these should be used to confirm the discrepant SNPs identified between Illlumina and ONT in the South African data are resolved. 
+
+merged vcf file: R9_SA1+2+3_allsites.merge.vcf 
+
 ```{r}
-TPAE_dataset.mlst_calls.file <- paste0("/Users/mb29/Treponema/Treponema_Discriminatory_Sites__MinION/MLST/","Phylo-Plex_dataset__MLST_Method_Comparisons__2025-04-29.xlsx")
+# Import variant calls from new ONTAP pipeline
+# SA_ONT_R9_variants_ONTAP_repeat_calls.file <- paste0(Data_input_directory, "ONTAP_R9_SA1+2+3_allsites.merge.vcf") 
+
+# Read in merged vcf from ONTAP pipeline analysis of ONT data
+SA_ONT_R9_variants_ONTAP_repeat_calls <- read_and_process_vcf(SA_ONT_R9_variants_ONTAP_repeat_calls.file)
+SA_ONT_R9_variants_ONTAP_repeat_calls <- SA_ONT_R9_variants_ONTAP_repeat_calls %>%
+  mutate(Indiv = paste("ONTAP_",Indiv)) %>%
+  filter(!grepl("Unclassified_reads",Indiv))
+#SA_ONT_R9_variants_ONTAP_repeat_calls
+
+# Filter and process in line with earlier comparison
+SA_ONT_R9_variants_ONTAP_repeat_calls.filt <- SA_ONT_R9_variants_ONTAP_repeat_calls %>% 
+  mutate(readsetID = gsub("ONTAP.+SA","SA",Indiv)) %>% 
+  mutate(readsetID = gsub("SA3_20230503","SA3_20230502",readsetID)) %>% #fix slight mislabelling issue
+  #pull(readsetID) %>% tail()
+  left_join(SA.ampliseq.comparison.meta, by=c("readsetID"="readsetID")) %>%
+  mutate(SeqMethod = gsub("ONT_PhyloSeq","ONTAP_PhyloSeq", SeqMethod)) %>%
+  filter(!is.na(`Sample Name`)) %>%
+  mutate(gt_GT_simplify= ifelse(gt_GT=="0/1","0",
+                                ifelse(gt_GT=="1","1", 
+                                       ifelse(gt_GT=="1/1","1",
+                                              ifelse(gt_GT=="2","2",
+                                                     ifelse(gt_GT=="2/2","2",
+                                                            ifelse(gt_GT=="3","3",
+                                                                   ifelse(gt_GT=="3/3","3",
+                                                                          ifelse(gt_GT=="0/0","0", 
+                                                                                 ifelse(gt_GT=="0","0", 
+                                                                                        ifelse(gt_GT_alleles==".","0", NA)))))))))))
+
+# Now combine the data from the 3 different datasets using harmonised columns
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined <- rbind( select(SA.Ampliseq_vs_IlluminaWGS.df.meta.sel, `Sample Name`, Indiv, SeqMethod, POS, REF, gt_GT_alleles, gt_GT, gt_GT_simplify), select(SA_ONT_R9_variants_ONTAP_repeat_calls.filt, `Sample Name`, Indiv, SeqMethod, POS, REF, gt_GT_alleles, gt_GT, gt_GT_simplify) )
+
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined  
+
+
+```
+
+
+\
+```{r}
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined.var_comparison <- df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined %>% 
+  group_by(`Sample Name`, POS) %>%
+  mutate(res_per_sample.var=n()) %>%
+  ungroup() %>%
+  filter(POS!=1072103) %>%
+  group_by(`Sample Name`, POS) %>%
+  mutate(nvars.persite.persample=length(unique(gt_GT_simplify)), concordant.in.triplet=ifelse(nvars.persite.persample==1,'Concordant', 'Discrepant')) %>%
+  ungroup() %>%
+  arrange(POS, SeqMethod)
+
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined.var_comparison %>%
+  filter(nvars.persite.persample !=1) %>%
+  # select(SeqMethod, `Sample Name`, POS, REF, res_per_sample.var, nvars.persite.persample, concordant.in.triplet, gt_GT_simplify) %>%
+  select(SeqMethod, Indiv, `Sample Name`, POS, REF, res_per_sample.var, nvars.persite.persample, concordant.in.triplet, gt_GT_simplify) #%>%
+  # pivot_wider(names_from=SeqMethod, values_from=gt_GT_simplify)
+```
+\
+First check variants that were previously a problem:
+7002
+```{r}
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined.var_comparison %>%
+  filter(nvars.persite.persample !=1) %>%
+  filter(POS==7002)
+```
+ONTAP gvcfs:
+`ONTAP_ TP_Discriminatory_SA2_20230428_barcode06` - Identified as 'T' - INDEL missed.
+The ONTAP pipeline is still not handling INDELS correctly, and this has been missed. 
+
+\
+916096
+```{r}
+df.SA_ONT_R9_vs_ONTAP_vs_Illumina_meta_combined.var_comparison %>%
+  filter(nvars.persite.persample !=1) %>%
+  filter(POS==916096)
+
+```
+ONTAP gvcfs:
+ONTAP_ TP_Discriminatory_SA1_20230426_barcode04 - no variant call (data missing and below threshold)
+`NC_021508.1     916085  .       A       <NON_REF>       0       .       END=916107      GT:GQ:MIN_DP:PL 0:1:0:0,0,0`
+ONTAP_ TP_Discriminatory_SA1_20230426_barcode07 - only one read available after filtering
+`NC_021508.1     916096  .       C       <NON_REF>       0       .       END=916096      GT:GQ:MIN_DP:PL .:0:1:29,3,0`
+
+\ 
+So the filter still does not see very low coverage SNPs (as we would expect - we are being robust). Does it process them correctly when converting to a MSA? Code checked - yes it does. 
+
+
+
+
+## MLST comparisons
+
+Want to compare MLST calls with phylogeny (and phylogenetic sublineage calls) in response to reviewer comments.
+\
+```{r}
+# TPAE_dataset.mlst_calls.file <- paste0("/Users/mb29/Treponema/Treponema_Discriminatory_Sites__MinION/MLST/","Phylo-Plex_dataset__MLST_Method_Comparisons__2025-04-29.xlsx")
+
 TPAE_dataset.mlst_calls <- read_excel(TPAE_dataset.mlst_calls.file, sheet="Torsty-MLST")
 
 TPAE_dataset.mlst_calls.filtered <- TPAE_dataset.mlst_calls %>%
@@ -4342,88 +4634,9 @@ Ampliseq_WGS_tree_subset.withMLST_dist.meta.derep <- distinct(Ampliseq_WGS_tree_
 ```
 \
 \
-## Make some plots
-
-\
-Distance within groups
-```{r, fig.width=8, fig.height=8}
-p.dist.within.TPA.STs_sina <- Ampliseq_WGS_tree_subset.withMLST_dist.meta.derep %>%
-  filter(same.Sample=="Different") %>%
-  filter(same.ST=="Same") %>%
-  ggplot(aes(y=ST_Method_Consensus.T1, x=Distance)) +
-  geom_quasirandom(groupOnX = F, size=1, alpha=0.5, aes(color=TPA.TPE.scheme.T1)) +
-  theme_bw() +
-  theme.text.size + legend.size +
-  coord_cartesian(xlim=c(0, 30)) +
-  NULL
-p.dist.within.TPA.STs_sina
-
-p.dist.within.TPA.pinecones_sina <- Ampliseq_WGS_tree_subset.withMLST_dist.meta.derep %>%
-  filter(same.Sample=="Different") %>%
-  filter(same.Pinecone=="Same") %>%
-  ggplot(aes(y=TPA.TPE.scheme.T1, x=Distance)) +
-  geom_quasirandom(groupOnX = F, size=1, alpha=0.5, aes(color=TPA.TPE.scheme.T1)) +
-  theme_bw() +
-  theme.text.size + legend.size +
-  coord_cartesian(xlim=c(0, 30)) +
-  NULL
-p.dist.within.TPA.pinecones_sina
-
-
-STs_per_pinecone <- Ampliseq_WGS_tree_subset.withMLST_dist.meta.derep %>%
-  filter(same.Sample=="Different") %>%
-  filter(same.ST=="Same") %>%
-  group_by(TPA.TPE.scheme.T1) %>%
-  summarise(multi_STs= unique(ST_Method_Consensus.T1)) %>% 
-  group_by(TPA.TPE.scheme.T1) %>%
-  summarise(count_STs_per_pinecone = n() ) %>%
-  mutate(sum(count_STs_per_pinecone)) 
-STs_per_pinecone
-
-p.dist.within.TPA.pinecones_multi.ST_sina <- Ampliseq_WGS_tree_subset.withMLST_dist.meta.derep %>%
-  filter(same.Sample=="Different") %>%
-  filter(same.ST=="Same") %>%
-  filter(TPA.TPE.scheme.T1 %in% (filter(STs_per_pinecone, count_STs_per_pinecone>1) %>% pull(TPA.TPE.scheme.T1)) ) %>%
-  ggplot(aes(y=ST_Method_Consensus.T1, x=Distance)) +
-  geom_quasirandom(groupOnX = F, size=1, alpha=0.5, aes(color=TPA.TPE.scheme.T1)) +
-  theme_bw() +
-  theme.text.size + legend.size +
-  coord_cartesian(xlim=c(0, 30)) +
-  facet_grid(TPA.TPE.scheme.T1~., scales="free_y", space="free_y") +
-  NULL
-p.dist.within.TPA.pinecones_multi.ST_sina
-
-plot_grid(p.dist.within.TPA.pinecones_sina + x.theme.strip, p.dist.within.TPA.STs_sina  + x.theme.strip, p.dist.within.TPA.pinecones_multi.ST_sina, ncol=1, align="v", axis="lr")
-```
-
-\
-heatmap
-```{r}
-heatmap(Ampliseq_WGS_tree_subset.withMLST_dist)
-```
-\
-more complex heatmap
-```{r}
-Ampliseq_WGS_tree_subset.withMLST_dist.meta.__pinecone.median <- Ampliseq_WGS_tree_subset.withMLST_dist.meta %>%
-  group_by(TPA.TPE.scheme.T1, TPA.TPE.scheme.T2) %>%
-  summarise(mean.dist=median(Distance)) %>%
-  pivot_wider(names_from=TPA.TPE.scheme.T2, values_from = mean.dist) %>%
-  column_to_rownames("TPA.TPE.scheme.T1")
-
-heatmap(as.matrix(Ampliseq_WGS_tree_subset.withMLST_dist.meta.__pinecone.median))
-
-
-Ampliseq_WGS_tree_subset.withMLST_dist.meta.__ST.median <- Ampliseq_WGS_tree_subset.withMLST_dist.meta %>%
-  group_by(ST_Method_Consensus.T1, ST_Method_Consensus.T2) %>%
-  summarise(mean.dist=median(Distance)) %>%
-  pivot_wider(names_from=ST_Method_Consensus.T2, values_from = mean.dist) %>%
-  column_to_rownames("ST_Method_Consensus.T1")
-
-heatmap(as.matrix(Ampliseq_WGS_tree_subset.withMLST_dist.meta.__ST.median))
-```
 \
 
-Against a tree?
+Plot against a tree?
 ```{r}
 d.TPAE_dataset.mlst_calls.filtered___STs <- TPAE_dataset.mlst_calls.filtered %>% 
   select(sampleid, ST_Method_Consensus) %>% 
@@ -4467,6 +4680,8 @@ p.Ampliseq_WGS_tree_subset.withMLST.gg <- gheatmap(p.Ampliseq_WGS_tree_subset.wi
   legend.size + theme.text.size
 
 p.Ampliseq_WGS_tree_subset.withMLST.gg
+
+#ggsave(plot=p.Ampliseq_WGS_tree_subset.withMLST.gg, paste0(Figures_directory,"SuppFig-__WGS-phylo_MLST.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=220, height=200, device='pdf', dpi=800) 
 ```
 \
 \
@@ -4480,11 +4695,12 @@ p.Ampliseq_WGS_tree_subset.withMLST.gg
 ### Can those clusters been discriminated using the Phylo-Plex framework, and what would the optimal number of amplicons be? 
 
 Sequencing reads downloaded from ENA and mapped to a common reference genome (FA_1090) using snippy. 
+`snippy-multi ../seqnames_reads.tsv --ref ../NC_002946__FA1090.gb --cpus 8 > snippy-multi-submitfile.txt`
 Multiple sequence alignment built using snippy-core, then fix sites using inbuilt snippy tools.
 Create VCF using snp-sites `snp-sites -v -o clean.SNPs.vcf clean.SNPs.aln`
 \
 ```{r}
-Taouk_gono_vcf.file <- "Gono_data/clean.SNPs.vcf.gz"
+Taouk_gono_vcf.file <- paste0(Gono_data,"clean.SNPs.vcf.gz")
 ```
 \
 \
@@ -4503,11 +4719,22 @@ Don't run on local laptop - 5500 genomes takes a lot of memory to process.
 
 \
 \
+Read in separately generated run data:
+```{r}
+Taouk_gono.processed.vcf <- read.csv(Taouk_gono.processed.vcf.file, check.names = F)
+
+Taouk_gono.processed.vcf.melt <- Taouk_gono.processed.vcf %>%
+  pivot_longer(-Indiv, names_to="POS", values_to="Allele")
+  
+Taouk_gono.processed.vcf.melt
+```
+\
+
+\
+\
 Read in metadata and process
 ```{r}
-Taouk_gono.metadata.file <- "Gono_data/Taouk_supdata_41467_2024_52343_MOESM4_ESM.xlsx"
 Taouk_gono.metadata <- read_excel(Taouk_gono.metadata.file, sheet='cleaned_up')
-
 
 Taouk_gono.metadata %>%
   group_by(`Cluster ID`) %>%
@@ -4518,7 +4745,7 @@ Taouk_gono.metadata %>%
   theme_bw() + theme.text.size +
   scale_y_log10() + scale_x_continuous(breaks=seq(0,800,50))
 
-# Let's pull out the most common clusters
+# Let's pull out the most common clusters (i.e. those with 10 or more examples)
 Taouk_gono.metadata_min10 <- Taouk_gono.metadata %>%
   group_by(`Cluster ID`) %>%
   summarise(count=n()) %>%
@@ -4536,18 +4763,23 @@ Taouk_gono.metadata
 #write.csv(select(Taouk_gono.metadata, Accession, cluster_limited), file="Gono_data/Taouk_clusters_min10.csv", row.names = F)
 ```
 
-
-
-\
-\
-Read in separately generated run data:
+Define a color scheme for the Taouk sublineages/clusters
 ```{r}
-Taouk_gono.processed.vcf.file <- "/Users/mb29/Papers/AmpliSeq_Treponema_paper_2024/Revision_04-2025/Gono_work/clean.SNPs.vcf_processed_spread.tsv"
-Taouk_gono.processed.vcf <- read.csv(Taouk_gono.processed.vcf.file, check.names = F)
+Taouk_clusters.cols <- Taouk_gono.metadata %>% 
+  mutate(cluster = as.numeric(cluster_limited)) %>%
+  distinct(cluster) %>%
+  arrange(cluster) %>%
+  filter(!is.na(cluster))
 
-Taouk_gono.processed.vcf
+# Taouk_clusters.cols$cluster.cols <- createPalette(length(Taouk_clusters.cols$cluster),  c("#ff0000", "#00ff00", "#0000ff"))
+
+Taouk_clusters.cols$cluster.cols <- c("#F80D0D", "#2AFE0D", "#2A26FA", "#F7CBCD", "#FF00E2", "#0DCEFD", "#F3E50D", "#227622", "#E37A00", "#6C2A84", "#CF166C", "#0DFEDA", "#75351C", "#CA00FF", "#166671", "#F885D0", "#9399FB", "#ABF175", "#A79342", "#C0ECC5", "#CBD6FF", "#FB9197", "#DF82F8", "#F5564D", "#47492A", "#26FC9B", "#FBB900", "#93607E", "#940D5C", "#7C1CC1", "#7CDBDF", "#165396", "#FD0DB4", "#951C22", "#F7BBFF", "#AA0099", "#F9B27E", "#F80D6C", "#98A39F", "#00A600", "#DFE889", "#16A283", "#1685FF", "#766E9A", "#CE16D7", "#69CE85", "#7D9C16", "#16A7F7", "#9B7A6A", "#FDDEAF", "#5D9BC4", "#839B66", "#FA71A8", "#9BFB16", "#E290AD", "#B76038", "#CBEE16", "#FF73ED", "#3247BA", "#FFDB73", "#9F7DCD", "#B666B5", "#9535F8", "#C91691", "#C9ACCA", "#F7697C", "#166040", "#9400A9", "#FE0092", "#8575FD", "#00F2FF", "#A3703B", "#5CED5D", "#862271", "#DC9B8F", "#C6E6EB", "#C2900D", "#BC76FF", "#4D4953")
+
+Taouk_clusters.cols
 ```
 \
+\
+
 Also need to run FST classification. This has also been rewritten as a command line script
  - "Calculate_FST_from_populations.R"
  
@@ -4555,10 +4787,883 @@ Also need to run FST classification. This has also been rewritten as a command l
  
  Read in separately generated run data:
 ```{r}
-Taouk_gono.FST.file <- "/Users/mb29/Papers/AmpliSeq_Treponema_paper_2024/Revision_04-2025/Gono_work/clean.SNPs.vcf_processed_spread.tsv.FST.scoring.csv"
 Taouk_gono.FST <- read.csv(Taouk_gono.FST.file, check.names = F)
 
-Taouk_gono.FST
+Taouk_gono.FST 
+  
+Taouk_gono.FST.sig <- Taouk_gono.FST %>% filter(sig=="sig")
+Taouk_gono.FST.sig
+
+# How many unique sites have sufficient FST
+Taouk_gono.FST.sig %>% 
+  distinct(POS)
+```
+\
+
+\
+Some sites may support multiple sublineages (at the 0.95 FST cuttoff used). Check if it makes sense to filter them out
+```{r}
+Taouk_gono.FST.sig %>%
+  group_by(POS) %>%
+  summarise(pop.count=n()) %>%
+  arrange(desc(pop.count))
+  
+
+Taouk_gono.FST.sig_single.sublin.sites.list <- Taouk_gono.FST.sig %>%
+  group_by(POS) %>%
+  summarise(pop.count=n()) %>% 
+  filter(pop.count==1) %>%
+  pull(POS)
+
+Taouk_gono.FST.sig_single.sublin.sites.list
+
+
+Taouk_gono.FST.sig_single.sublin.sites <- Taouk_gono.FST.sig %>%
+  filter(POS %in% Taouk_gono.FST.sig_single.sublin.sites.list)
+
+Taouk_gono.FST.sig_single.sublin.sites
+```
+
+Examine sites per sublineage
+```{r, fig.width=8, fig.height=8}
+p.Taouk_gono.FST.sig.sublins_point.plot <- Taouk_gono.FST.sig %>%
+  #mutate(population=factor(population)) %>%
+  arrange(POS) %>% distinct(POS, population, .keep_all = T) %>%
+  ggplot(aes(x=POS, y=FST, color=population)) +
+  geom_point(alpha=0.5, size=1) + 
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='right') +
+  x.theme.axis.rotate +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  labs(y=expression(F[ST]), x="Genome Position", color=expression(paste("Significant ", F[ST]))) +
+  coord_cartesian(y=c(0.75,1) ) +
+  labs(title=paste0(nrow(Taouk_gono.FST.sig %>% distinct(POS)), " discriminating alleles across all 77 defined sublineages")) +
+  facet_wrap(vars(population)) + theme(legend.position = 'none')
+p.Taouk_gono.FST.sig.sublins_point.plot
+
+p.Taouk_gono.FST.sig.sublins_point_singlesub.plot <- Taouk_gono.FST.sig_single.sublin.sites %>%
+  #mutate(population=factor(population)) %>%
+  arrange(POS) %>% distinct(POS, population, .keep_all = T) %>%
+  ggplot(aes(x=POS, y=FST, color=population)) +
+  geom_point(alpha=0.5, size=1) + 
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='right') +
+  x.theme.axis.rotate +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  labs(y=expression(F[ST]), x="Genome Position", color=expression(paste("Significant ", F[ST]))) +
+  coord_cartesian(y=c(0.75,1) ) +
+  labs(title=paste0(nrow(Taouk_gono.FST.sig %>% distinct(POS)), " discriminating alleles across all 77 defined sublineages")) +
+  facet_wrap(vars(population)) + theme(legend.position = 'none')
+p.Taouk_gono.FST.sig.sublins_point_singlesub.plot
+
+
+
+# bar plots
+p.Taouk_gono.FST.sig.raw_sublins_support_bar <- Taouk_gono.FST.sig %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::mutate(sublineage=(gsub("sublin-","",population))) %>%
+  #dplyr::arrange(sublineage) %>%
+  dplyr::arrange(count) %>%
+  dplyr::mutate(population=factor(population,levels=unique(population))) %>%
+  ungroup() %>%
+  ggplot(aes(x=population, y=count, fill=population)) +
+  geom_bar(stat='identity', width=0.65) + 
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='top') + 
+  scale_y_continuous(breaks=pretty) +
+  scale_fill_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  x.theme.axis.rotate.angle +
+  theme(strip.text.x = element_blank()) +
+  geom_text(aes(x=population, y=count+12, label=count),size=text.size.within-0.5, angle = 90) +
+  theme(legend.position = 'none') +
+  NULL
+p.Taouk_gono.FST.sig.raw_sublins_support_bar
+
+p.Taouk_gono.FST.sig.raw_sublins_singlesub_support_bar <- Taouk_gono.FST.sig_single.sublin.sites %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::mutate(sublineage=(gsub("sublin-","",population))) %>%
+  #dplyr::arrange(sublineage) %>%
+  dplyr::arrange(count) %>%
+  dplyr::mutate(population=factor(population,levels=unique(population))) %>%
+  ungroup() %>%
+  ggplot(aes(x=population, y=count, fill=population)) +
+  geom_bar(stat='identity', width=0.65) + 
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='top') + 
+  scale_y_continuous(breaks=pretty) +
+  scale_fill_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  x.theme.axis.rotate.angle +
+  theme(strip.text.x = element_blank()) +
+  geom_text(aes(x=population, y=count+12, label=count),size=text.size.within-0.5, angle = 90) +
+  theme(legend.position = 'none') +
+  NULL
+p.Taouk_gono.FST.sig.raw_sublins_singlesub_support_bar
+```
+As previously, some sublineages in the Taouk Gonorrhoeae dataset have limited SNP support, whilst others are extremely well supported. Need to apply the selection algorithm, but first check for optimal positional tuning.
+
+```{r}
+# Update positional matrix function to take any dataset (not specifically the Tp one)
+######################################################################
+make_genome_site_positional_matrix_2 <- function(region.size, sig.sites.df) {
+  sig.sites.list <- sort(unique(sig.sites.df$POS))
+  FST.unique.sites.combo <- data.frame(t(combn(sig.sites.list,2,simplify=T)),stringsAsFactors = F)
+  colnames(FST.unique.sites.combo) <- c("site1","site2")
+  
+  FST.unique.sites.combo$genomic.distance <- abs(FST.unique.sites.combo$site1 - FST.unique.sites.combo$site2)
+  
+  # Make a character vector for vertices
+  FST.unique.sites.combo$site1.s <- paste0("s",FST.unique.sites.combo$site1)
+  FST.unique.sites.combo$site2.s <- paste0("s",FST.unique.sites.combo$site2)
+  
+  # identify SNP pairings within specifed size range (bp)
+  FST.unique.sites.combo.near <- FST.unique.sites.combo[FST.unique.sites.combo$genomic.distance<=region.size,]
+  
+  return(FST.unique.sites.combo.near)
+}
+######################################################################
+```
+\
+Takes a while with the bigger gonorrhoea dataset
+```{r, eval=FALSE}
+#make_genome_site_positional_matrix_2(100, Taouk_gono.FST.sig)
+
+# Run analysis in a loop to assess impact of changing cluster size
+genomic_positional_distance_clustering_collated_gono <- setNames(data.frame(matrix(ncol = 4, nrow = 0)), c("region.cluster", "SNPs.per.cluster", "region.distance", "linkage.dist"))
+
+for (current.size in seq(50,1000, 50)){
+  # Generate network
+  FST.sublin.combined.sig.unique.sites.combo.near_gono__current <- make_genome_site_positional_matrix_2(current.size, Taouk_gono.FST.sig)
+  genomic.sites.network_current_gono <- make_positional_network(FST.sublin.combined.sig.unique.sites.combo.near_gono__current)
+  # Get cluster info and link
+  genomic.sites.network_current_gg_gono <- prepare_networkgg_for_plotting(genomic.sites.network_current_gono) 
+  # extract key stats on network components
+  genomic.sites.network_current_gg_gono <- genomic.sites.network_current_gg_gono %>%
+    group_by(region.cluster) %>%
+    mutate(SNPs.per.cluster=length(unique(vertex.names))) %>%
+    mutate(vertex.pos=as.numeric(gsub("s","",vertex.names))) %>%
+    mutate(region.start=min(vertex.pos), region.end=max(vertex.pos), region.distance=region.end-region.start) %>%
+    ungroup() 
+    # Create summary df that contains the key info we need
+    summarise.sites.network.info_gono <- genomic.sites.network_current_gg_gono %>% 
+      mutate(linkage.dist=current.size) %>%
+      select(region.cluster, SNPs.per.cluster, region.distance, linkage.dist) %>%
+      distinct()
+   
+  genomic_positional_distance_clustering_collated_gono <- rbind(summarise.sites.network.info_gono, genomic_positional_distance_clustering_collated_gono)
+}
+  
+genomic_positional_distance_clustering_collated_gono
+
+#write.csv(genomic_positional_distance_clustering_collated_gono, file=paste0("Gono_data/", "genomic_positional_distance_clustering_collated_gono.csv"), row.names = F)
+```
+\
+\
+read back in
+```{r, fig.height=6, fig.width=6}
+genomic_positional_distance_clustering_collated_gono <- read.csv(paste0("Gono_data/", "genomic_positional_distance_clustering_collated_gono.csv.gz"))
+```
+\
+Now make some plots
+```{r, fig.height=8, fig.width=8} 
+p.genomic_positional_distance_clustering_Clustercount.gono <- genomic_positional_distance_clustering_collated_gono %>%
+  group_by(linkage.dist) %>%
+  summarise(cluster.count = n()) %>%
+  ggplot(aes(x=linkage.dist, y=cluster.count)) +
+  geom_point(alpha=0.5, size=1) + 
+  theme_bw() + theme.text.size +
+  scale_x_continuous(breaks=seq(0,max(genomic_positional_distance_clustering_collated_gono$linkage.dist), 100)) +
+  coord_cartesian(ylim=c(0,1200)) +
+  scale_y_continuous(breaks=pretty) +
+  x.theme.axis.rotate.angle +
+  labs(x="Cluster linkage size (bp)", y="Cluster count")
+
+p.genomic_positional_distance_clustering_SNPcount.gono <- genomic_positional_distance_clustering_collated_gono %>%
+  ggplot(aes(x=linkage.dist, y=SNPs.per.cluster)) +
+  rasterise(geom_quasirandom(size=0.5, alpha=0.5), dpi=400) + 
+  theme_bw() + theme.text.size +
+  scale_x_continuous(breaks=seq(0,max(genomic_positional_distance_clustering_collated_gono$linkage.dist), 100)) +
+  scale_y_continuous(breaks=pretty) +
+  x.theme.axis.rotate.angle +
+  labs(x="Cluster linkage size (bp)", y="SNPs/Amplicon")
+
+
+p.genomic_positional_distance_clustering_regiondist.gono <- genomic_positional_distance_clustering_collated_gono %>%
+  ggplot(aes(x=linkage.dist, y=region.distance)) +
+  rasterise(geom_quasirandom(size=0.5, alpha=0.5), dpi=400) + 
+  theme_bw() + theme.text.size +
+  scale_x_continuous(breaks=seq(0,max(genomic_positional_distance_clustering_collated_gono$linkage.dist), 100)) +
+  scale_y_continuous(breaks=pretty) +
+  scale_y_log10() + coord_cartesian(ylim=c(1,max(genomic_positional_distance_clustering_collated_gono$region.distance))) +
+  x.theme.axis.rotate.angle +
+  labs(x="Cluster linkage size (bp)", y="Length of region\nspanning SNPs (bp)")
+
+# Combination plot
+p.genomic_positional_distance_clustering__combi.gono <- plot_grid(p.genomic_positional_distance_clustering_Clustercount.gono + x.theme.strip, p.genomic_positional_distance_clustering_SNPcount.gono + x.theme.strip, p.genomic_positional_distance_clustering_regiondist.gono, ncol=1, align="v", rel_heights = c(2,3,4), label_size = 11, labels = "AUTO")
+
+p.genomic_positional_distance_clustering__combi.gono
+
+
+#ggsave(plot=p.genomic_positional_distance_clustering__combi.gono, paste0(Figures_directory,"SuppFig13__Linkage-distance-impact.gono",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=180, height=180, device='pdf', dpi=400) 
 
 ```
+\
+\
+Now create a set of regions for clustering (to optimise regions)
+\
+The above plots show there are far more sites available within a small amplicon than were present in the Tp dataset. However, for the purposes of direct comparison, we will use the same thresholds as for Tp. 
+
+```{r, fig.width=12, fig.height=12}
+# Make positional matrix using 300 bp linkage setting (as for Tp)
+Taouk_gono__FST.sublin.combined.sig.unique.sites.combo.near <- make_genome_site_positional_matrix_2(300, Taouk_gono.FST.sig_single.sublin.sites) #Taouk_gono.FST.sig)
+
+###########
+genomic.sites.network_gono <- make_positional_network(Taouk_gono__FST.sublin.combined.sig.unique.sites.combo.near)
+
+genomic.sites.network.gg_gono <- prepare_networkgg_for_plotting(genomic.sites.network_gono)
+
+# Add metadata for which sublineage is supported by each site
+genomic.sites.network.gg_gono <- Taouk_gono.FST.sig %>%
+  mutate(vertex.names = paste0("s",POS)) %>%
+  right_join(genomic.sites.network.gg_gono, by="vertex.names") %>%
+  select(-POS) %>%
+  distinct()
+
+# Visualise network
+p.genomic.sites.network.gg_gono <- ggplot(genomic.sites.network.gg_gono, aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_edges(alpha=0.25,curvature = 0, color='grey25') + 
+  #geom_nodes(size=2, alpha=0.5, aes(color=region.cluster)) +
+  geom_nodes(size=2, alpha=0.5, aes(color=population)) +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  theme_blank() + theme(legend.position='none') +
+  NULL
+p.genomic.sites.network.gg_gono
+```
+
+\
+Extract information about the network:
+```{r}
+genomic.sites.network.gg_gono %>%
+  distinct(region.cluster)
+```
+
+
+\
+Lots of big single-lineage network components likely represent recombination (which is not yet filtered - to redo if possible). 
+\
+Ok, so Gubbins cannot cope with such a large dataset (timed out after 30 days running). Debatable whether recombination needs to be removed if it is discriminatory. We can instead apply filters to exclude regions that are specific to a single region with many SNPs (i.e likely driven by a recombination block).
+\
+
+
+
+
+
+\
+Link sublineage information back to network components
+```{r}
+# Create list of sublineages to support (ideally order so those with the lowest native support go first)
+Taouk.sublins.list.ordered <- Taouk_gono.FST.sig %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::arrange(count) %>% pull(population)
+
+
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage <- Taouk_gono.FST.sig_single.sublin.sites %>%
+  arrange(match(population, Taouk.sublins.list.ordered)) %>%
+  mutate(vertex.names=paste0("s",POS)) %>%
+  left_join(genomic.sites.network.gg_gono, by=c("vertex.names","population","FST")) %>%
+  select(POS, region.cluster, population, vertex.names) %>%
+  distinct() %>%
+  mutate(region.cluster = ifelse(is.na(region.cluster), vertex.names, region.cluster)) # for singleton sites that don't form part of a component cluster, add a vertex name
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage
+```
+\
+Get stats about unfiltered network
+```{r}
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage %>%
+  filter(grepl("s",region.cluster)) %>% distinct()
+
+# List singleton-SNP phy-cons
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage %>%
+  filter(grepl("s",region.cluster)) %>% distinct(region.cluster)
+
+# List multi-SNP phy-cons
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage %>%
+  filter(!grepl("s",region.cluster)) %>% distinct(region.cluster)
+
+```
+
+
+
+Need to remove very large network components
+```{r}
+# Examine lengths and set boundaries for amplicon design
+gono.mp.max.length <- 700
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage %>%
+  dplyr::group_by(region.cluster) %>%
+  dplyr::summarise(start=min(POS), end=max(POS), length=(end-start), mp.extra.to.add=ceiling((gono.mp.max.length-length)/2), 
+            start.extra=start-mp.extra.to.add, end.extra=end+mp.extra.to.add, length.extra=(end.extra-start.extra), length.adjust=ifelse(length==0,1,length)) %>%
+  dplyr::arrange(start.extra)
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries
+
+# Extract list of regions that are below the maximum length requirement
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_goodsize <- Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries %>%
+  filter(length<=gono.mp.max.length + 25) %>%
+  pull(region.cluster)
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_goodsize
+
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage %>% 
+  filter(region.cluster %in% Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_goodsize)
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize
+```
+
+
+Check how many different populations/sublineages each network component supports (it was up to 14 for Tp)
+```{r}
+# How many sublineages per cluster?
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage_pops.per.region <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize %>% 
+  distinct(region.cluster, population) %>%
+  group_by(region.cluster) %>%
+  summarise(pop.count=n()) %>%
+  arrange(desc(pop.count))
+Taouk_gono.FST.sig_single.sublin.sites_region.linkage_pops.per.region
+
+max(Taouk_gono.FST.sig_single.sublin.sites_region.linkage_pops.per.region$pop.count)
+
+```
+Maximum number of sublineages supported per region cluster (candidate phycon) is 7
+\
+\
+Now apply hierarchical loop to gono dataset
+```{r}
+###############################################################
+# Core Phylo-Seq hierarchical selection loop
+######################################################
+
+# Create list of sublineages to support (ideally order so those with the lowest native support go first)
+Taouk.sublins.list.ordered <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::arrange(count) %>% pull(population)
+
+# start to build a list of sites
+hierarchical.FST.sites.to.keep <- NULL
+# Create empty list of populations (sublineages) to be added to
+Taouk.scheme.list.cumulative.counts <- data.frame(population = Taouk.sublins.list.ordered, sublineage=c(paste0("sublin-",Taouk.sublins.list.ordered)), Cum.count=0) 
+
+# Set minimum number of supporting sites to aim for in each sublineage 
+site.support.threshold <- 3
+
+
+for (current.count in seq(max(Taouk_gono.FST.sig_single.sublin.sites_region.linkage_pops.per.region$pop.count), 1)){
+  
+  # within loop, create dataset based on how many pops each site is discriminatory for (many = better)
+  pops_per_region.current <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage_pops.per.region %>% dplyr::filter(pop.count==current.count)
+
+  # Now filter dataset to only include those haplotypes and get counts per population
+  region_and_pop_counts.current <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize %>% 
+    dplyr::filter(region.cluster %in% pops_per_region.current$region.cluster) %>%
+    dplyr::group_by(region.cluster, population) %>%
+    dplyr::summarise(regions.per.pop=n()) %>%
+    dplyr::ungroup()
+  
+  # How many pops are supported in the population if we included these?
+  sites.per.region.current <- region_and_pop_counts.current %>%
+    dplyr::group_by(population) %>% 
+    dplyr::summarise(Count.per.region=n()) %>%
+    dplyr::ungroup()
+  
+  # Combine with full list of all sites, and add to cumulative supporting site count
+  sites.per.region.current.addCum <- left_join(Taouk.scheme.list.cumulative.counts, sites.per.region.current, by='population') %>% 
+    replace(is.na(.), 0) %>%
+    dplyr::mutate(Cum.count.new=(Cum.count+Count.per.region)) %>%
+    # if the region is not adding to the cumulative counts, reduce to 0
+    dplyr::mutate(Cum.count.new.only=ifelse(Cum.count.new < site.support.threshold, Cum.count.new, 0),
+           Cum.count.fixed=Cum.count+Cum.count.new.only, 
+           keep.var=ifelse(Cum.count < site.support.threshold, "keep", "discard")) 
+  
+  # list of current populations to focus on
+  pops.to.keep <- sites.per.region.current.addCum %>% 
+    dplyr::filter(keep.var == "keep")
+  
+  # add cumulative 'fixed' total back into original spreadsheet (outside of loop)
+  Taouk.scheme.list.cumulative.counts$Cum.count <- sites.per.region.current.addCum$Cum.count.new
+  
+  region_and_pop_counts.current.tokeep <- 
+    region_and_pop_counts.current %>% 
+    dplyr::filter(population %in% pops.to.keep$population)
+  
+  # Get a list of sites from this dataset, and put into a new list
+  hierarchical.FST.sites.to.keep <- unique(c(hierarchical.FST.sites.to.keep, unlist(unique(region_and_pop_counts.current.tokeep$region.cluster))))
+}  
+
+hierarchical.FST.sites.to.keep.gono <- unique(hierarchical.FST.sites.to.keep)
+
+
+Taouk__genomic.sites.retained.FSTpop.dataframe <- Taouk_gono.FST.sig_single.sublin.sites_region.linkage_goodsize %>% 
+  dplyr::filter(region.cluster %in% hierarchical.FST.sites.to.keep.gono) %>% 
+  dplyr::ungroup()
+
+Taouk__genomic.sites.retained.FSTpop.dataframe 
+```
+\
+How many amplicons?
+```{r}
+paste0("There are ",length(unique(Taouk__genomic.sites.retained.FSTpop.dataframe$region.cluster))," region clusters (Phy-cons).")
+
+paste0("There are ",length(unique(Taouk__genomic.sites.retained.FSTpop.dataframe$POS))," unique discriminatory SNPs in those Phy-cons.")
+
+# How many are singletons
+Taouk__genomic.sites.retained.FSTpop.dataframe %>%
+  filter(grepl("s",region.cluster)) %>% distinct(POS)
+
+# How many are not singletons
+Taouk__genomic.sites.retained.FSTpop.dataframe %>%
+  filter(!grepl("s",region.cluster)) %>% distinct(POS)
+```
+\
+Check phycon boundaries 
+```{r}
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained <- Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries %>%
+  filter(region.cluster %in% unique(Taouk__genomic.sites.retained.FSTpop.dataframe$region.cluster))
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained
+```
+
+\
+Check per-population support
+```{r}
+p.Taouk_gono.FST.sig.phyloplex_refined_support_bar <- Taouk__genomic.sites.retained.FSTpop.dataframe %>%
+  group_by(population) %>%
+  summarise(SNPs.per.pop = n()) %>%
+  arrange(SNPs.per.pop) %>%
+  dplyr::mutate(population=factor(population,levels=unique(population))) %>%
+  ungroup() %>%
+  ggplot(aes(x=population, y=SNPs.per.pop, fill=population)) +
+  geom_bar(stat='identity', width=0.65) + 
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='top') + 
+  scale_y_continuous(breaks=pretty) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  x.theme.axis.rotate.angle +
+  scale_fill_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  theme(strip.text.x = element_blank()) +
+  geom_text(aes(x=population, y=SNPs.per.pop+12, label=SNPs.per.pop),size=text.size.within-0.5, angle = 90) +
+  theme(legend.position = 'none') +
+  NULL
+p.Taouk_gono.FST.sig.phyloplex_refined_support_bar
+```
+\
+Compare to before
+```{r, fig.height=6, fig.width=8}
+df.Taouk_gono_pop_support.raw <- Taouk_gono.FST.sig_single.sublin.sites %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::mutate(sublineage=(gsub("sublin-","",population))) %>%
+  #dplyr::arrange(sublineage) %>%
+  dplyr::arrange(count) %>%
+  dplyr::mutate(population=factor(population,levels=unique(population))) %>%
+  ungroup() %>%
+  mutate(dataset = "Raw Sites")
+
+df.Taouk_gono_pop_support.optimised <- Taouk__genomic.sites.retained.FSTpop.dataframe %>% 
+  distinct(population, POS) %>%
+  dplyr::group_by(population) %>%
+  dplyr::summarise(count=n()) %>%
+  dplyr::mutate(sublineage=(gsub("sublin-","",population))) %>%
+  #dplyr::arrange(sublineage) %>%
+  dplyr::arrange(count) %>%
+  dplyr::mutate(population=factor(population,levels=unique(population))) %>%
+  ungroup() %>%
+  mutate(dataset = "Optimised Sites")
+
+p.Taouk_gono_pop_support_bars__before.after <- rbind(df.Taouk_gono_pop_support.raw, df.Taouk_gono_pop_support.optimised) %>%
+  mutate(dataset = factor(dataset, levels=c("Raw Sites","Optimised Sites"))) %>%
+  ggplot(aes(x=population, y=count, fill=population)) +
+  geom_bar(stat='identity', width=0.65) + 
+  facet_grid(dataset~.) +
+  theme_bw() + theme.text.size + theme(legend.key.size = unit(0.55,"line"),legend.position='top') + 
+  scale_y_continuous(breaks=pretty) +
+  labs(y="Discriminatory Site Count", x="Genomic Sublineage", fill="Genomic\nSublineage") +
+  x.theme.axis.rotate.angle +
+  scale_fill_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  theme(strip.text.x = element_blank()) +
+  geom_text(aes(x=population, y=count+15, label=count),size=text.size.within-0.5, angle = 90) +
+  theme(legend.position = 'none') +
+  NULL
+p.Taouk_gono_pop_support_bars__before.after
+```
+\
+Get stats about supported Phy-cons
+```{r}
+rbind(df.Taouk_gono_pop_support.raw, df.Taouk_gono_pop_support.optimised) %>%
+  mutate(dataset = factor(dataset, levels=c("Raw Sites","Optimised Sites")))
+
+length(unique(Taouk_gono.FST.sig_single.sublin.sites$population))
+```
+
+
+
+\
+Replot network, highlighting selected regions
+
+Original code for old plot
+
+Try plotting original network with ellipses indicating selected regions
+```{r}
+unique(Taouk__genomic.sites.retained.FSTpop.dataframe$region.cluster)
+```
+
+\
+```{r, fig.width=12, fig.height=12}
+Taouk_regions.retained <- unique(Taouk__genomic.sites.retained.FSTpop.dataframe$region.cluster)
+
+Taouk_sites.retained <- filter(Taouk__genomic.sites.retained.FSTpop.dataframe, region.cluster %in% Taouk_regions.retained) %>% distinct(POS) %>% arrange(POS) %>% pull(POS)
+
+
+p.Taouk_Disc_network_with_ellipses <- genomic.sites.network.gg_gono %>% 
+  mutate(region.cluster.present=ifelse(region.cluster %in% Taouk_regions.retained,"present","missing")) %>%
+  mutate(region.cluster.filt=ifelse(region.cluster %in% Taouk_regions.retained, region.cluster, NA)) %>%
+  #group_by(region.cluster.filt) %>% summarise(count=n()) %>%
+  ggplot( aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_edges(alpha=0.25,curvature = 0, color='grey25') + 
+  #geom_nodes(size=2, alpha=0.5, aes(color=region.cluster)) +
+  geom_nodes(size=1.5, alpha=0.5, aes(color=population)) +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
+  new_scale_color() +
+  theme_blank() + theme(legend.position='none') +
+  geom_mark_ellipse(aes(group=region.cluster.filt, color=region.cluster.present), expand=0.0025, linewidth=0.2, alpha=0.7) +
+  scale_color_manual(breaks=c("missing","present"), values=c("transparent", "red"), guide = 'none') +
+  #theme(legend.position='right') +
+  theme(legend.position='none') +
+  NULL
+#p.Taouk_Disc_network_with_ellipses
+```
+
+Create a combination plot
+```{r, fig.height=12, fig.width=10}
+p.Taouk_Disc_network_with_ellipses_and_support <- plot_grid(p.Taouk_Disc_network_with_ellipses, p.Taouk_gono_pop_support_bars__before.after, ncol=1, rel_heights = c(3,1) , labels="AUTO")
+
+p.Taouk_Disc_network_with_ellipses_and_support
+
+
+
+#ggsave(plot=p.Taouk_Disc_network_with_ellipses_and_support, paste0(Figures_directory,"SuppFig14__Gono_SNP-network.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=220, height=320, device='pdf', dpi=800)
+```
+
+
+\
+Ok, now extract the sequences from those regions and make a tree. 
+\
+Need to remake function to be more generic
+```{r}
+Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained
+
+
+Taouk.insert.sites__goodregions.IRanges <- IRanges(start=Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained$start.extra, end=Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained$end.extra, names=Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained$region.cluster)
+
+
+```
+
+```{r}
+#SS14.insert.sites__goodregions.IRanges
+
+# Function to find sites within amplicons
+extract_SNPs_in_amplicons2 <- function(my.SNPsites, my.phycon.regions){
+  
+  # #testing
+   #my.SNPsites <- as.numeric(colnames(Taouk_gono.processed.vcf)[2:length(colnames(Taouk_gono.processed.vcf))])
+   #my.phycon.regions <- Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained
+  
+  # Create IRanges object from amplicons
+    Phycon.sites.IRanges <- IRanges(start=as.numeric(my.phycon.regions$start.extra), end=as.numeric(my.phycon.regions$end.extra), names=as.character(my.phycon.regions$region.cluster))
+  # Create IRanges object from sites
+  current.SNPsites.IRanges <- IRanges(start=as.numeric(my.SNPsites), end=as.numeric(my.SNPsites), name=as.character(my.SNPsites))
+  # test if there are any intersects - if there are, run a bunch of analyses, if there are not, generate an empty file
+  if(nrow(data.frame(IRanges::findOverlaps(current.SNPsites.IRanges, Phycon.sites.IRanges, select="all"))) >=1){
+    # find overlaps with primer scheme amplicons
+    current.SNPsites__IRanges_overlap_with_phycons <- data.frame(IRanges::findOverlaps(current.SNPsites.IRanges, Phycon.sites.IRanges, select="all"))
+    # Add amplicon overlap names
+    current.SNPsites__IRanges_overlap_with_phycons$amplicons <- sapply(1:length(current.SNPsites__IRanges_overlap_with_phycons$subjectHits), function(x) my.phycon.regions$region.cluster[current.SNPsites__IRanges_overlap_with_phycons$subjectHits[x]])
+    # add SNP positions
+    current.SNPsites__IRanges_overlap_with_phycons$SNP_Pos <- sapply(1:length(current.SNPsites__IRanges_overlap_with_phycons$queryHits), function(x) my.SNPsites[current.SNPsites__IRanges_overlap_with_phycons$queryHits[x]])
+    current.SNPsites__IRanges_overlap_with_phycons$true.snp <- 1
+  }
+  else {
+    current.SNPsites__IRanges_overlap_with_phycons <- data.frame(queryHits=0, subjectHits=0, amplicons=0, SNP_Pos=0, true.snp=0)
+  }
+  return(current.SNPsites__IRanges_overlap_with_phycons)
+}
+```
+\
+
+\
+Ok, want to make a multiple sequence alignment from the Phy-cons (derived from the original WGS alignment)
+```{r}
+Taouk_gono.processed_all.SNPs <- colnames(Taouk_gono.processed.vcf)[2:length(colnames(Taouk_gono.processed.vcf))]
+
+Taouk_gono.processed_amplicon_SNPs <- extract_SNPs_in_amplicons2(my.SNPsites = Taouk_gono.processed_all.SNPs, 
+                           my.phycon.regions = Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained)
+
+Taouk_gono.processed_amplicon_SNPs
+
+Taouk_gono.processed_amplicon_SNPs.list <- unique(Taouk_gono.processed_amplicon_SNPs$SNP_Pos)
+Taouk_gono.processed_amplicon_SNPs.list
+
+length(Taouk_gono.processed_amplicon_SNPs.list)
+
+```
+\
+\
+```{r}
+# Load packages
+library(dplyr)
+library(tidyr)
+library(RcppRoll)
+library(ggplot2)
+
+Taouk_snps_df <- data.frame(position = as.numeric(Taouk_gono.processed_amplicon_SNPs.list))
+
+# Set genome and binning parameters
+Taouk_window_size <- 350  # bin size in bp
+Taouk_genome_length <- max(Taouk_snps_df$position)
+Taouk_bin_edges <- seq(0, Taouk_genome_length + Taouk_window_size, by = Taouk_window_size)
+
+# Assign SNPs to bins
+Taouk_snps_df <- Taouk_snps_df %>%
+  mutate(bin_id = findInterval(position, Taouk_bin_edges))
+
+# Count SNPs per bin (use dplyr::count to avoid masked function issues)
+snp_counts <- dplyr::count(Taouk_snps_df, bin_id)
+
+# Create full list of bins
+Taouk_bins <- tibble(bin_id = seq_along(Taouk_bin_edges[-1]), bin_start = Taouk_bin_edges[-length(Taouk_bin_edges)], bin_end = Taouk_bin_edges[-1] - 1 )
+
+# Join SNP counts to bins, fill in bins with 0 SNPs
+Taouk_phycon.bin_counts <- dplyr::right_join(snp_counts, Taouk_bins, by = "bin_id") %>%
+  mutate(n = tidyr::replace_na(n, 0)) %>%
+  arrange(bin_id)
+
+# Apply rolling mean to SNP counts
+Taouk_phycon.bin_counts <- Taouk_phycon.bin_counts %>%
+  mutate(rolling_mean = roll_mean(n, n = 5, fill = NA, align = "center")) %>%
+  mutate(bin_centre = bin_start + Taouk_window_size/2) %>%
+  mutate(rolling_density = rolling_mean/Taouk_window_size)
+
+# Plot
+Taouk_phycon.bin_counts %>%
+  ggplot(aes(x=bin_centre, y=rolling_density)) +
+  geom_point(alpha=0.5) +
+  theme_bw() + theme.text.size + x.theme.axis.rotate.angle +
+  labs(y="SNP density (vars/window)", x=paste0("Genome Position (", Taouk_window_size, "bp windows)"))
+```
+
+\
+```{r, eval=F}
+Taouk_gono.processed.vcf.melt_in.phycons <- Taouk_gono.processed.vcf.melt %>% 
+  filter(POS %in% Taouk_gono.processed_amplicon_SNPs.list)
+
+Taouk_gono.processed.vcf.melt_in.phycons  
+
+
+# Taouk_gono.processed.vcf.melt %>% 
+#   filter(POS == "60")
+# 
+# Taouk_gono.processed.vcf.melt %>%
+#   mutate(POS2 = as.numeric(POS))
+```
+
+
+
+
+???SNP files are too large to process on a laptop (memory limitations). 
+Could use bedtools to extract from the MSA?
+\
+
+\
+# Code to extract phycon sites from a bigger table
+filter_tsv_to_phycon_sites.R
+```{r, eval=F}
+#!/usr/bin/env Rscript
+
+packages.list <- c("dplyr", "tidyr")
+for(pkg in packages.list){ eval(bquote(library(.(pkg)))) }
+
+# Parse command line arguments
+args <- commandArgs(trailingOnly = TRUE)
+
+# Function to display usage
+print_usage <- function() {
+  cat("Usage: Rscript filter_tsv_to_phycon_sites.R <input_file> <position_list>\n")
+  cat("  <SNP_table>   Path to input SNP_table file (required)\n")
+  cat("  <position_list>   Path to input position list (required)\n")
+}
+
+# Error checking
+if (length(args) < 2) {
+  cat("Error: Not enough arguments provided.\n\n")
+  print_usage()
+  quit(status = 1)
+}
+
+# assign argument to input file
+SNP_table.file <- args[1]
+position_list.file <- args[2]
+
+# Validate SNP_table file exists
+if (!file.exists(SNP_table.file)) {
+  cat("Error: SNP_table.file does not exist.\n")
+  quit(status = 1)
+}
+
+# Validate position_list file exists
+if (!file.exists(position_list.file)) {
+  cat("Error: position_list.file does not exist.\n")
+  quit(status = 1)
+}
+
+#Taouk_gono.processed.vcf.file <- "/Users/mb29/Papers/AmpliSeq_Treponema_paper_2024/Github/TP-Phylo-Plex_paper_2025/Gono_data/clean.SNPs.vcf.gz_processed_spread.tsv.gz"
+
+# Read in SNPs table file
+SNP_table.processed.vcf <- read.csv(SNP_table.file, check.names = F)
+
+# pivot longer
+SNP_table.processed.vcf.melt <- SNP_table.processed.vcf %>%
+  pivot_longer(-Indiv, names_to="POS", values_to="Allele")
+  
+# Read in positions list file
+position_list <- read.csv(position_list.file, check.names = F, header=F)
+
+# filter to sites
+SNP_table.processed.vcf.melt_in.phycons <- SNP_table.processed.vcf.melt %>% 
+  filter(POS %in% position_list$V1)
+
+write.csv(SNP_table.processed.vcf.melt_in.phycons, file=paste0(SNP_table.file,"_filtered_phycons.tsv"), row.names = F, quote=F)
+
+
+```
+
+\
+read in results of above script (run on cluster)
+```{r}
+
+# Toy example for interactive compute
+Taouk_gono.processed.vcf.melt_in.phycons <- read.csv(Taouk_gono.processed.vcf.melt_in.phycons.file, check.names = F, header=T)
+
+
+Taouk_gono.processed.vcf.melt_in.phycons %>% 
+  group_by(Indiv) %>%
+  summarise(count=n()) %>% arrange(desc(count))
+
+Taouk_gono.processed.vcf.melt_in.phycons %>%
+  mutate(gt_GT_alleles = ifelse(gt_GT_alleles == "*","N", gt_GT_alleles)) %>%
+  group_by(Indiv) %>%
+  summarise(seq = paste(gt_GT_alleles, collapse="")) %>%
+  group_by(seq) %>%
+  summarise(seqcount = n())
+
+Taouk_gono.processed.vcf.melt_in.phycons_seqs <- Taouk_gono.processed.vcf.melt_in.phycons %>%
+  mutate(gt_GT_alleles = ifelse(gt_GT_alleles == "*","N", gt_GT_alleles)) %>%
+  group_by(Indiv) %>%
+  summarise(seq = paste(gt_GT_alleles, collapse=""))
+Taouk_gono.processed.vcf.melt_in.phycons_seqs
+
+
+
+# # Create file name for fasta output
+# Taouk_gono.SNPs_in.phycons.fasta.filename <- paste0("/Users/mb29/Papers/AmpliSeq_Treponema_paper_2024/Github/TP-Phylo-Plex_paper_2025/Gono_data/","Taouk_gono.SNPs_in.phycons.fa")
+# 
+# for (current.sample in c(1:length(Taouk_gono.processed.vcf.melt_in.phycons_seqs$Indiv))){
+#   seqinr::write.fasta(names=Taouk_gono.processed.vcf.melt_in.phycons_seqs$Indiv[current.sample], sequences = Taouk_gono.processed.vcf.melt_in.phycons_seqs$seq[current.sample], file.out = Taouk_gono.SNPs_in.phycons.fasta.filename, open="a", as.string = T)
+# }
+
+
+```
+
+\
+Read in trees and plot
+```{r, fig.width=8, fig.height=8}
+Gono_Phycon_tree.phylo <- midpoint.root(read.tree(Gono_Phycon_tree.file))
+
+Gono_Phycon_tree.rect.gg <- ggtree(Gono_Phycon_tree.phylo, size=0.25, right=T)
+
+# Gono_Phycon_tree.rect.gg
+```
+\
+Define metadata
+```{r}
+Taouk_gono.main_clusters <- Taouk_gono.metadata %>%
+  filter(cluster_limited!="Other") %>%
+  select(Accession, cluster_limited)
+```
+
+\
+\
+Plots
+```{r, fig.width=10, fig.height=10}
+# Gono_Phycon_tree.circ.gg %<+% Taouk_gono.main_clusters + 
+#   geom_tippoint(aes(color=cluster_limited), size=1, alpha=0.35) +
+#   scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols)
+
+Gono_Phycon_tree.rect.gg %<+% Taouk_gono.main_clusters + 
+  geom_tippoint(aes(color=cluster_limited), size=1, alpha=0.35) +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols)
+```
+
+\
+Do the same for the WGS tree
+
+```{r, fig.width=10, fig.height=10}
+Gono_WGS_tree.phylo <- midpoint.root(read.tree(Gono_WGS_tree.file))
+
+Gono_WGS_tree.rect.gg <- ggtree(Gono_WGS_tree.phylo, size=0.25, right=T)
+
+Gono_WGS_tree.rect.gg %<+% Taouk_gono.main_clusters + 
+  geom_tippoint(aes(color=cluster_limited), size=1, alpha=0.35) +
+  scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols)
+```
+
+
+\
+Now do a tanglegram
+```{r, fig.width=10, fig.height=10}
+p.Taouk_WGS.vs.Phycon_Tanglegram <- plot_tanglegram(Gono_WGS_tree.phylo, Gono_Phycon_tree.phylo, data.frame(Sample_Name=Taouk_gono.main_clusters$Accession, Lineage=Taouk_gono.main_clusters$cluster_limited), colorscheme = Taouk_clusters.cols, scale_difference = 0.0075, centre_separation = 0.001, pointsize = 1, left_label_offset = 0.05, right_label_offset = 1, left_ladder = T, right_ladder = T, line_alpha = 0.15, untangle=F) + theme(legend.position = 'bottom') + guides(col = guide_legend(nrow = 7))
+
+p.Taouk_WGS.vs.Phycon_Tanglegram 
+
+#ggsave(plot=p.Taouk_WGS.vs.Phycon_Tanglegram, paste0(Figures_directory,"SuppFig15__Gono_Tanglegram.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=220, height=220, device='pdf', dpi=800)
+```
+\
+untangled
+```{r, fig.width=10, fig.height=10}
+plot_tanglegram(Gono_WGS_tree.phylo, Gono_Phycon_tree.phylo, data.frame(Sample_Name=Taouk_gono.main_clusters$Accession, Lineage=Taouk_gono.main_clusters$cluster_limited), colorscheme = Taouk_clusters.cols, scale_difference = 0.0075, centre_separation = 0.001, pointsize = 1, left_label_offset = 0.05, right_label_offset = 1, left_ladder = F, right_ladder = F, line_alpha = 0.15, untangle=T) + theme(legend.position = 'bottom') + guides(col = guide_legend(nrow = 7))
+```
+
+################
+\
+\
+Print all plots (for drafting purposes)
+```{r, eval=F}
+# Read the notebook as text
+rscript_code <- readLines("Treponema_Phylo-Seq_Discrimintory_amplicon_analysis_04-2025.Rmd")
+
+# Extract lines containing ggsave
+ggsave_lines <- grep("ggsave", rscript_code, value = TRUE)
+ggsave_lines <- gsub("\\#\\ *","", ggsave_lines)
+
+# Evaluate each one
+for (line in ggsave_lines) {
+  message("Running: ", line)
+  eval(parse(text = line))
+}
+```
+
+
+
+
 
