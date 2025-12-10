@@ -5233,6 +5233,15 @@ Check phycon boundaries
 Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained <- Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries %>%
   filter(region.cluster %in% unique(Taouk__genomic.sites.retained.FSTpop.dataframe$region.cluster))
 Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained
+
+# Make into a table suitable for export
+Taouk_gono.phycon.boundaries.output.df <- Taouk_gono.FST.sig_single.sublin.sites_region.phycon.boundaries_retained %>%
+  mutate(region=region.cluster, refgenome="NC_002946.2", region.start=start, region.end=end, region.length=length, flanking.region.start=start.extra, flanking.region.end=end.extra, flanking.region.length=length.extra) %>%
+  select(region, refgenome, region.start, region.end, region.length, flanking.region.start, flanking.region.end, flanking.region.length)
+
+Taouk_gono.phycon.boundaries.output.df
+
+#write.csv(Taouk_gono.phycon.boundaries.output.df, file=paste0("Gono_data/", "SuppTable6_Gono-PhyloPlex_regions.csv"), row.names = F)
 ```
 
 \
