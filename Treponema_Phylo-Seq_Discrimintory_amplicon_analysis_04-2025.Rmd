@@ -1610,7 +1610,7 @@ p.positional_disc_sites_clustered.site.network_by_sublin.both_ellipses__combi <-
 p.positional_disc_sites_clustered.site.network_by_sublin.both_ellipses__combi
 
 
-#ggsave(plot=p.positional_disc_sites_clustered.site.network_by_sublin.both_ellipses__combi, paste0(Figures_directory,"Figure2__DiscSites_clustered.site.network_ellipses.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=220, height=220, device='pdf', dpi=400)
+#ggsave(plot=p.positional_disc_sites_clustered.site.network_by_sublin.both_ellipses__combi, paste0(Figures_directory,"Figure2__DiscSites_clustered.site.network_ellipses.",format(Sys.Date(),"%Y%m%d"),".pdf"), units='mm', width=210, height=220, device='pdf', dpi=400)
 
 ```
 \
