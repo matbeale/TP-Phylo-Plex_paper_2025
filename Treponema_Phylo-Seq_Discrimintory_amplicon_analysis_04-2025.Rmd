@@ -5336,10 +5336,22 @@ Taouk_regions.retained <- unique(Taouk__genomic.sites.retained.FSTpop.dataframe$
 Taouk_sites.retained <- filter(Taouk__genomic.sites.retained.FSTpop.dataframe, region.cluster %in% Taouk_regions.retained) %>% distinct(POS) %>% arrange(POS) %>% pull(POS)
 
 
+# rerunning this code has produced an error in ellipse generation. Take ellipse data out of plotting and calculate separately
+ellipse_data <- genomic.sites.network.gg_gono %>%
+  mutate(region.cluster.filt = ifelse(region.cluster %in% Taouk_regions.retained, region.cluster, NA)) %>% 
+  mutate(region.cluster.present=ifelse(region.cluster %in% Taouk_regions.retained,"present","missing")) %>%
+  filter(!is.na(region.cluster.filt)) %>%
+  group_by(region.cluster.filt) %>%
+  mutate(needs_jitter = n() <= 3 & abs(cor(x, y)) > 0.99999,
+         x = ifelse(needs_jitter, jitter(x, amount = 0.00075), x),
+         y = ifelse(needs_jitter, jitter(y, amount = 0.00075), y) ) %>%
+  select(-needs_jitter) %>%
+  ungroup()
+
+
 p.Taouk_Disc_network_with_ellipses <- genomic.sites.network.gg_gono %>% 
   mutate(region.cluster.present=ifelse(region.cluster %in% Taouk_regions.retained,"present","missing")) %>%
   mutate(region.cluster.filt=ifelse(region.cluster %in% Taouk_regions.retained, region.cluster, NA)) %>%
-  #group_by(region.cluster.filt) %>% summarise(count=n()) %>%
   ggplot( aes(x = x, y = y, xend = xend, yend = yend)) + 
   geom_edges(alpha=0.25,curvature = 0, color='grey25') + 
   #geom_nodes(size=2, alpha=0.5, aes(color=region.cluster)) +
@@ -5347,9 +5359,9 @@ p.Taouk_Disc_network_with_ellipses <- genomic.sites.network.gg_gono %>%
   scale_color_manual(breaks=Taouk_clusters.cols$cluster, values=Taouk_clusters.cols$cluster.cols) +
   new_scale_color() +
   theme_blank() + theme(legend.position='none') +
-  geom_mark_ellipse(aes(group=region.cluster.filt, color=region.cluster.present), expand=0.0025, linewidth=0.2, alpha=0.7) +
+  #geom_mark_ellipse(aes(group=region.cluster.filt, color=region.cluster.present), expand=0.0025, linewidth=0.2, alpha=0.7) +
+  geom_mark_ellipse(data = ellipse_data, aes(group=region.cluster.filt, color=region.cluster.present), expand=0.0025, linewidth=0.2, alpha=0.7) +
   scale_color_manual(breaks=c("missing","present"), values=c("transparent", "red"), guide = 'none') +
-  #theme(legend.position='right') +
   theme(legend.position='none') +
   NULL
 #p.Taouk_Disc_network_with_ellipses
